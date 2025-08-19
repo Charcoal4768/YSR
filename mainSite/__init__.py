@@ -21,13 +21,13 @@ csrf = CSRFProtect(app)
 socket = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
 migrate = Migrate(app, db)
 
-from .routes.views import views_bp
-from .routes.auth import auth_bp
-from .routes.api import api_bp
+from .routes.views import views
+from .routes.auth import auth
+from .routes.api import api
 
-app.register_blueprint(views_bp)
-app.register_blueprint(auth_bp)
-app.register_blueprint(api_bp)
+app.register_blueprint(views)
+app.register_blueprint(auth)
+app.register_blueprint(api)
 
 login_manager = LoginManager(app)
 @login_manager.user_loader
@@ -40,6 +40,7 @@ def load_user(user_id):
     
 @app.errorhandler(Exception)
 def handle_exception(error):
+    print(error)
     return render_template('errors.html', error=error), 500
 
 @socket.on('join')

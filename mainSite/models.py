@@ -20,11 +20,47 @@ class User(UserMixin, db.Model):
     def get_user_by_id(cls, user_id:int):
         return cls.query.get(user_id)
     @classmethod
-    def make_user(cls, email:str, username:str, password:str, phone:str=None, address:str=None):
-        user = cls(email=email, username=username, password=password, phone=phone, address=address)
+    def make_user(cls, email:str, username:str, password:str, phone:str=None, address:str=None, role:str='user'):
+        user = cls(email=email, username=username, password=password, phone=phone, address=address, role=role)
         db.session.add(user)
         db.session.commit()
         return user
+    @classmethod
+    def temp_user(cls, email:str, username:str, phone:str, address: str, role:str='temp'):
+        user = cls(email=email, username=username, phone=phone, address=address, role=role)
+        db.session.add(user)
+        db.session.commit()
+        return user
+    @classmethod
+    def temp_to_full_account(cls, temp_user, password:str):
+        full_user = cls(
+            email=temp_user.email,
+            username=temp_user.username,
+            password=password,
+            phone=temp_user.phone,
+            address=temp_user.address,
+            role="user"
+        )
+        temp_user.delete(user_id=temp_user.id)
+        db.session.add(full_user)
+        db.session.commit()
+        return full_user
+    @classmethod
+    def delete(cls, user_id:int):
+        user = cls.get_user_by_id(user_id)
+        if user:
+            db.session.delete(user)
+            db.session.commit()
+            return True
+        return False
+    @classmethod
+    def promote(cls, user_id:int, new_role:str):
+        user = cls.get_user_by_id(user_id)
+        if user:
+            user.role = new_role
+            db.session.commit()
+            return True
+        return False
     @classmethod
     def edit_user(cls, user_id:int, email:str=None, username:str=None, password:str=None, phone:str=None, address:str=None):
         user = cls.get_user_by_id(user_id)
@@ -43,7 +79,7 @@ class User(UserMixin, db.Model):
         return user
 
 product_tags = db.Table('product_tags',
-                        db.Column('product_id', db.Integer, db.ForeignKey('products.id'), primary_key=True),
+                        db.Column('product_id', db.Integer, db.ForeignKey('product.id'), primary_key=True),
                         db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True))
 
 class Product(db.Model):
@@ -51,21 +87,36 @@ class Product(db.Model):
     image_url = db.Column(db.String(255), nullable=False)
     name = db.Column(db.String(150), nullable=False)
     description = db.Column(db.Text, nullable=True)
-    tags = db.relationship('Tag', secondary='product_tags', back_populates='products')
+    tags = db.relationship('Tags', secondary='product_tags', back_populates='product')
 
     def __repr__(self):
         return f'<Product {self.name}>'
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "image_url": self.image_url,
+            "name": self.name,
+            "description": self.description,
+            "tags": [tag.name for tag in self.tags]
+        }
     
     @classmethod
     def get_product_by_id(cls, product_id:int):
         return cls.query.get(product_id)
     @classmethod
     def get_products_by_tag(cls, tag_name:str):
-        return cls.query.join(product_tags).join(Tag).filter(Tag.name == tag_name).all()
+        return cls.query.join(product_tags).join(Tags).filter(Tags.name == tag_name).all()
     @classmethod
     def add_product(cls, image_url:str, name:str, description:str, tags:list):
         product = cls(image_url=image_url, name=name, description=description)
-        product.tags.extend(tags)
+        tag_objects = []
+        for tag_str in tags:
+            tag = Tags.query.filter_by(name=tag_str).first()
+            if not tag:
+                tag = Tags(name=tag_str)
+                db.session.add(tag)
+            tag_objects.append(tag)
+        product.tags.extend(tag_objects)
         db.session.add(product)
         db.session.commit()
         return product
@@ -92,9 +143,9 @@ class Product(db.Model):
             return True
         return False
 
-class Tag(db.Model):
+class Tags(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), nullable=False)
-    products = db.relationship('Product', secondary='product_tags', back_populates='tags')
+    product = db.relationship('Product', secondary='product_tags', back_populates='tags')
     def __repr__(self):
         return f'<Tag {self.name}>'

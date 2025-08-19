@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}
+Admin - Products
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='admin_panel.js') }}"></script>
+{% endblock %}
+{% block content %}
+<div class="mainContent">
+    <div class="adminCard">
+    <div class="heading animate right">
+        <h1>Manage Products</h1>
+    </div>
+    <button class="products" type="button" id="add-product-menu-button">Add Product</button>
+    <hr>
+    <div class="prodContainer" id="product-fields-container">
+        <div class="newProduct">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+            <div class="productCard">
+                <div class="mobileTitle">
+                    <h2 id="new-product-mobile-name" contenteditable="true">Product Name</h2>
+                </div>
+                <div class="productLogo">
+                    <input type="file" id="new-product-image" accept="image/*" hidden>
+                    <div class="customFileupload" id="upload-file-button">
+                        <!-- <span>Choose File</span> -->
+                    </div>
+                </div>
+                <div class="productBody">
+                    <h2 contenteditable="true" id="new-product-name">Product Name</h2>
+                    <div class="tags">
+                        <span class="tag" contenteditable="true">Category Name</span>
+                        <button type="button" class="smallButton" id="add-tags">+</button>
+                    </div>
+                    <p contenteditable="true" id="new-product-description">Product Description</p>
+                </div>
+            </div>
+            <button type="button" id="add-product-button" class="bluebutton">Add Product</button>
+        </div>
+    </div>
+    <h2>Product List</h2>
+    {% if products %}
+        <div class="productsSection">
+            {% for product in products %}
+                <div class="productCard animate up">
+                    <div class="mobileTitle">
+                        <h2>{{ product.name }}</h2>
+                    </div>
+                    <div class="productLogo">
+                        <div class="publishedLogo">
+                            <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                        </div>
+                    </div>
+                    <div class="productBody">
+                        <h2>{{ product.name }}</h2>
+                        <div class="spacer"></div>
+                        <p>{{ product.description }}</p>
+                        <div class="tags">
+                            {% for tag in product.tags %}
+                                <span class="tag">{{ tag.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No products found.</p>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}

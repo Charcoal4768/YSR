@@ -11,6 +11,8 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='fonts.css') }}">
         <script src="{{ url_for('static', filename='scripts.js') }}"></script>
         <script src="{{ url_for('static', filename='animations_handler.js') }}"></script>
+        {% block scripts %}
+        {% endblock %}
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -26,6 +28,27 @@
                     <li class="disposable"><a href="{{ url_for('views.more') }}">About</a></li>
                     <li><a href="{{ url_for('views.contact') }}">Get Quote</a></li>
                 </ul>
+            </div>
+            <div class="hangingMenu">
+                {% if current_user.is_authenticated %}
+                <ul>
+                    <li><a href="{{ url_for('views.profile') }}">Profile</a></li>
+                    <li><a href="{{ url_for('views.settings') }}">Settings</a></li>
+                    <li><a href="{{ url_for('views.logout') }}">Logout</a></li>
+                </ul>
+                {% else %}
+                <ul>
+                    <li><a href="{{ url_for('auth.signup') }}">SignUp</a></li>
+                    <li><a href="{{ url_for('auth.login') }}">LogIn</a></li>
+                </ul>
+                {% endif %}
+                <hr>
+                <div class="heading animate right">
+                    <h2>Our Catalog</h2>
+                </div>
+                <div class="catalog-items">
+                    <!-- Catalog items will be dynamically loaded here  by js-->
+                </div>
             </div>
         </nav>
 
