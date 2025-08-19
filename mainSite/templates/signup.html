@@ -5,21 +5,41 @@
 {% block title %}
 Sign Up
 {% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='signup_script.js') }}"></script>
+{% endblock %}
 {% block content %}
 <div class="mainContent">
-    <div class="authForm">
-        <form action="/signup" method="POST">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
+    <div class="pageLander">
+        <div class="paneLayout">
+            <div class="animate up rel priority">
+                <div class="authForm">
+                    <div class="heading animate right">
+                        <h2>Sign Up</h2>
+                    </div>
+                    <form method="POST">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-
-        <button type="submit">Sign Up</button>
-        </form>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                    <label for="password2">Confirm Password:</label>
+                    <input type="password" id="password2" name="password2" required>
+                    <label for="show-password">Show Password</label>
+                    <input type="checkbox" id="show-password">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <button type="submit" class="bluebutton">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+            <div class="authSidePanel secondary useless">
+                <h2 class="heading animate right">Why Sign Up?</h2>
+                <p class="subheading animate up">Join us to access exclusive cleaning solutions tailored for your needs.</p>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

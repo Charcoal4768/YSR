@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block meta %}
+<meta name="description" content="Log in to your YSR Shine Solutions account to manage your cleaning services.">
+{% endblock %}
+{% block title %}
+Log In
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='login_script.js') }}"></script>
+{% endblock %}
+{% block content %}
+<div class="mainContent">
+    <div class="pageLander">
+        <div class="paneLayout">
+            <div class="animate up rel priority">
+                <div class="authForm">
+                    <div class="heading animate right">
+                        <h2>Log In</h2>
+                    </div>
+                    <form method="POST">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" name="password" required>
+                        <label for="show-password">Show Password</label>
+                        <input type="checkbox" id="show-password">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <button type="submit" class="bluebutton">Log In</button>
+                    </form>
+                </div>
+            </div>
+            <div class="authSidePanel secondary useless">
+                <h2 class="heading animate right">Ready to Shine?</h2>
+                <p class="subheading animate up">Log in to manage your services and bookings.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

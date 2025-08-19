@@ -1,58 +1,85 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>{% block title %}My Website{% endblock %}</title>
-        {% block meta %}
-        {% endblock %}
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='fonts.css') }}">
-        <script src="{{ url_for('static', filename='scripts.js') }}"></script>
-        <script src="{{ url_for('static', filename='animations_handler.js') }}"></script>
-        {% block scripts %}
-        {% endblock %}
-    </head>
-    <body>
-        <!--[if lt IE 7]>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}My Website{% endblock %}</title>
+    {% block meta %}
+    {% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts.css') }}">
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <script src="{{ url_for('static', filename='animations_handler.js') }}"></script>
+    {% block scripts %}
+    {% endblock %}
+</head>
+
+<body>
+    <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <nav>
-            <div class="logo">
-                <a href="{{ url_for('views.home') }}"><img class="logo small" src="{{ url_for('static', filename='default_images/CRYSTAL alt.png') }}" alt="Logo"></a>
+    <nav>
+        <div class="logo">
+            <a href="{{ url_for('views.home') }}"><img class="logo small"
+                    src="{{ url_for('static', filename='default_images/CRYSTAL alt.png') }}" alt="Logo"></a>
+        </div>
+        <div class="links">
+            <ul>
+                <li class="disposable"><a href="{{ url_for('views.home') }}">Home</a></li>
+                <li><a href="{{ url_for('views.contact') }}">Get Quote</a></li>
+                <li class="subnav">
+                    <div class="burger">
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="sidebar animate right">
+        <div class="subheading animate right">
+            <h2>Looking for something <em>specific?</em></h2>
+        </div>
+        <div class="subheading animate right">
+            <p>Browse our catalog to find the perfect cleaning solution for your needs.</p>
+        </div>
+        <div class="catalog-items">
+            <div class="subheading animate right">
+                <h2>Categories:</h2>
             </div>
-            <div class="links">
-                <ul>
-                    <li class="disposable"><a href="{{ url_for('views.home') }}">Home</a></li>
-                    <li class="disposable"><a href="{{ url_for('views.more') }}">About</a></li>
-                    <li><a href="{{ url_for('views.contact') }}">Get Quote</a></li>
-                </ul>
-            </div>
-            <div class="hangingMenu">
-                {% if current_user.is_authenticated %}
-                <ul>
-                    <li><a href="{{ url_for('views.profile') }}">Profile</a></li>
-                    <li><a href="{{ url_for('views.settings') }}">Settings</a></li>
-                    <li><a href="{{ url_for('views.logout') }}">Logout</a></li>
-                </ul>
-                {% else %}
-                <ul>
-                    <li><a href="{{ url_for('auth.signup') }}">SignUp</a></li>
-                    <li><a href="{{ url_for('auth.login') }}">LogIn</a></li>
-                </ul>
-                {% endif %}
-                <hr>
-                <div class="heading animate right">
-                    <h2>Our Catalog</h2>
-                </div>
-                <div class="catalog-items">
-                    <!-- Catalog items will be dynamically loaded here  by js-->
-                </div>
-            </div>
-        </nav>
+            <!-- Catalog items will be dynamically loaded here  by js-->
+        </div>
+        <hr>
+        <div class="extra">
+            {% if current_user.is_authenticated %}
+            <ul>
+                <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+            </ul>
+            {% if current_user.role == 'admin' %}
+            <ul>
+                <li><a href="{{ url_for('views.admin_panel') }}">Admin Dashboard</a></li>
+            </ul>
+            {% endif %}
+            {% else %}
+            <ul>
+                <li><a href="{{ url_for('auth.signup') }}">SignUp</a></li>
+                <li><a href="{{ url_for('auth.login') }}">LogIn</a></li>
+            </ul>
+            {% endif %}
+        </div>
+        <hr>
+    </div>
+    {% for message in get_flashed_messages(with_categories=True) %}
+    <div class="flash-message {{ message[0] }}" style="display: none;">
+        {{ message[1] }}
+    </div>
+    {% endfor %}
 
-        {% block content %}
-        {% endblock %}
-    </body>
+    {% block content %}
+    {% endblock %}
+</body>
+
 </html>

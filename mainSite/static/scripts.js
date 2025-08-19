@@ -5,6 +5,11 @@ document.addEventListener('DOMContentLoaded', function() {
       contactForm.classList.add('visible');
     }
   }, 3000);
+  const burger = document.querySelector('.burger');
+  burger.addEventListener('click', function() {
+    const sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('visible');
+  });
 });
 
 // A simple throttle function to limit how often a function can run.

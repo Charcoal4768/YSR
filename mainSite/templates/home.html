@@ -29,10 +29,48 @@
     </div>
 </div>
 <div class="mainContent">
-    <div class="layer left">
-        <div class="heading animate up">
+    <div class="layer left animate right">
+        <div class="heading">
             <h2>Our Products</h2>
         </div>
     </div>
+    <div id="product-list" data-has-next="{{ has_next }}" data-page="1">
+        {% for category in categories %}
+        <div class="category-section">
+            <div class="layer left category-heading animate right" id="cat-{{ category.name }}">
+                <h2>{{ category.name }}</h2>
+            </div>
+            <div class="layer right">
+            {% for product in category.product %}
+                <div class="productCard animate up">
+                    <div class="mobileTitle">
+                        <h2>{{ product.name }}</h2>
+                    </div>
+                    <div class="productLogo">
+                        <div class="publishedLogo">
+                            <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                        </div>
+                    </div>
+                    <div class="productBody">
+                        <h2>{{ product.name }}</h2>
+                        <div class="spacer"></div>
+                        <p>{{ product.description }}</p>
+                        <div class="tags">
+                            {% for tag in product.tags %}
+                                <span class="tag">{{ tag.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div id="loading" style="text-align: center; display: none;">
+        <p>Loading more products...</p>
+    </div>
 </div>
+
+<script src="{{ url_for('static', filename='paginate_scroll.js') }}"></script>
 {% endblock %}

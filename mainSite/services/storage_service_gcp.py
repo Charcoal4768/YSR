@@ -3,6 +3,7 @@ import dotenv
 import json
 from google.cloud import storage
 from google.oauth2 import service_account
+from werkzeug.utils import secure_filename
 
 dotenv.load_dotenv()
 
@@ -30,7 +31,7 @@ def get_storage_client():
 def upload_file(file_stream, file_name, content_type="image/jpeg")->str:
     client = get_storage_client()
     bucket = client.get_bucket(bucket_name)
-    blob = bucket.blob(file_name)
+    blob = bucket.blob(secure_filename(file_name))
     blob.upload_from_file(file_stream, content_type=content_type)
     return blob.public_url
 

@@ -5,10 +5,10 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
-    password = db.Column(db.String(150), nullable=False)
-    phone = db.Column(db.String(150), nullable=False)
-    address = db.Column(db.String(150), nullable=False)
-    role = db.Column(db.String(50), nullable=False)
+    password = db.Column(db.String(150), nullable=True)
+    phone = db.Column(db.String(150), nullable=True)
+    address = db.Column(db.String(150), nullable=True)
+    role = db.Column(db.String(50), nullable=True)
 
     def __repr__(self):
         return f'<User {self.username}>'
@@ -110,7 +110,9 @@ class Product(db.Model):
     def add_product(cls, image_url:str, name:str, description:str, tags:list):
         product = cls(image_url=image_url, name=name, description=description)
         tag_objects = []
-        for tag_str in tags:
+        unique_tags = list(set(tags))
+
+        for tag_str in unique_tags:
             tag = Tags.query.filter_by(name=tag_str).first()
             if not tag:
                 tag = Tags(name=tag_str)

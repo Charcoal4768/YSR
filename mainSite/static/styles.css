@@ -91,23 +91,58 @@ nav ul li a:hover::before {
     width: 100%;
 }
 .hangingMenu{
-    display: none;
-}
-.hangingMenu.visible{
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 300px;
-    height: 100%;
-    background: white;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+    position: absolute;
+    bottom: -90%;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    background: #eeeeee;
 }
 img.logo {
     margin-left: 5px;
     margin-right: 5px;
     max-width: 100%;
     object-fit: cover;
+}
+.sidebar{
+    display: none;
+    position: fixed;
+    padding: var(--standard-container-padding);
+    top: 60px;
+    left: 0;
+    width: 250px;
+    height: calc(100% - 60px);
+    background: white;
+    z-index: 10;
+}
+.sidebar.visible{
+    display: block;
+}
+.sidebar .extra ul{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.sidebar .extra ul li{
+    color: #006eff;
+}
+.burger{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 20px;
+    cursor: pointer;
+}
+.burger .line {
+    height: 3px;
+    background-color: #006eff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+.sidebar hr{
+    border-color: #c4c4c4;
+    border-style: solid;
 }
 img.logo.medium {
     max-width: 200px;
@@ -209,6 +244,39 @@ img.showcase{
     resize: none;
     max-height: 200px;
 }
+.authForm{
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 512px;
+    padding: var(--standard-container-padding);
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.authForm input{
+    width: 100%;
+    padding: var(--standard-padding);
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.authForm input[type="checkbox"]{
+    width: auto;
+    margin-right: 0.5rem;
+}
+.authForm textarea{
+    width: 100%;
+    padding: var(--standard-padding);
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    max-height: 200px;
+}
 button.bluebutton{
     width: 100%;
     padding: var(--standard-padding);
@@ -228,6 +296,13 @@ button.products:disabled{
     border-radius: 4px;
     color: #979797;
     font-size: var(--normal-font-size);
+}
+.authSidePanel {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 hr{
     border-color: #eeeeee;
@@ -501,6 +576,9 @@ img.showcase.large.faded{
     }
 }
 @media (max-width: 768px) {
+    /* .authForm{
+        margin-top: 5em;
+    } */
     .paneLayout{
         flex-direction: column;
         justify-content: center;
@@ -564,5 +642,10 @@ img.showcase.large.faded{
         --small-font-size: 12px;
         --medium-font-size: 16px;
         --large-font-size: 20px;
+    }
+}
+@media (max-height: 680px) {
+    .secondary.useless{
+        display: none;
     }
 }

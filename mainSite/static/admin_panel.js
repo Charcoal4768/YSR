@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let file = null;
 
     function getLocalData() {
-        const tags = Array.from(document.querySelectorAll(".tags .tag")).map(tag => tag.textContent.trim()).filter(text => text !== "");
+        const tags = Array.from(document.querySelectorAll("#product-fields-container .tags .tag")).map(tag => tag.textContent.trim()).filter(text => text !== "");
         return {
             name: productName.textContent.trim(),
             description: productDescription.textContent.trim(),
@@ -47,15 +47,20 @@ document.addEventListener("DOMContentLoaded", () => {
         productName.textContent = mobileProductName.textContent;
     });
 
+// admin_panel.js (Updated)
+
     moreTags.addEventListener("click", () => {
         const newTag = document.createElement("span");
         newTag.classList.add("tag");
         newTag.contentEditable = "true";
         newTag.textContent = "New Category";
-        document.querySelector(".tags").insertBefore(newTag, moreTags);
+        
+        // Use a more specific selector here as well
+        const tagsContainer = document.querySelector("#product-fields-container .tags");
+        tagsContainer.insertBefore(newTag, moreTags);
     });
 
-    document.querySelector(".tags").addEventListener("input", (event) => {
+    document.querySelector("#product-fields-container .tags").addEventListener("input", (event) => {
         if (event.target.classList.contains("tag") && event.target.textContent.trim() === "") {
             event.target.remove();
         }
@@ -76,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 formData.append('description', productData.description);
                 formData.append('image', productData.image);
                 formData.append('tags', JSON.stringify(productData.tags));
-
+                console.log(formData)
                 // Now, use the received token to publish the product
                 fetch('/api/publish_product', {
                     method: 'POST',
@@ -90,7 +95,27 @@ document.addEventListener("DOMContentLoaded", () => {
                 .then(data => {
                     if (data.success) {
                         console.log("Product published successfully:", data.product);
+                        // clear all data and refresh page
+                        productName.textContent = "";
+                        productDescription.textContent = "";
+                        file = null;
+                        document.querySelector(".customFileupload").style.backgroundImage = "none";
+                        document.querySelector(".tags").innerHTML = "";
+                        location.reload();
                     } else {
+                        if (data.errordata.error.includes('duplicate key value violates unique constraint "product_tags_pkey"')) {
+                            console.error("Error publishing product:", data.error);
+                            const uniqueTags = new Set();
+                            productData.tags = productData.tags.filter(tagId => {
+                            const combination = `${productData.id}-${tagId}`;
+                            if (uniqueTags.has(combination)) {
+                                return false; // Remove duplicate
+                            } else {
+                                uniqueTags.add(combination);
+                                return true; // Keep unique
+                                }
+                            });
+                        }
                         console.error("Failed to publish product:", data.error);
                     }
                 })

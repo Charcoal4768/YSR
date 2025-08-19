@@ -5,8 +5,9 @@ from flask_login import login_required, current_user
 from mainSite.services.storage_service_gcp import upload_file
 from mainSite.services.temporary_account_service import make_temp_account
 from werkzeug.utils import secure_filename
-from mainSite.models import User, Product, product_tags
+from mainSite.models import Tags, User, Product, product_tags
 from mainSite import db, csrf
+from sqlalchemy.orm import joinedload
 import smtplib
 import dotenv
 dotenv.load_dotenv()
@@ -22,10 +23,10 @@ def issue_publish_token():
     return token
 
 @api.route('/api/request_new_token', methods=['GET'])
-# @login_required
+@login_required
 def request_new_token():
-    # if not current_user.is_authenticated or current_user.role != 'admin':
-    #     return jsonify({"error": "Unauthorized"}), 401
+    if not current_user.is_authenticated or current_user.role != 'admin':
+        return jsonify({"error": "Unauthorized"}), 401
     token = issue_publish_token()
     return jsonify({"publish_token": token})
 
@@ -55,10 +56,10 @@ def send_email():
 
 @csrf.exempt
 @api.route('/api/publish_product', methods=['POST'])
-# @login_required
+@login_required
 def publish_product():
-    # if not current_user.is_authenticated or current_user.role != 'admin':
-    #     return jsonify({"error": "Unauthorized"}), 401
+    if not current_user.is_authenticated or current_user.role != 'admin':
+        return jsonify({"error": "Unauthorized"}), 401
     auth_header = request.headers.get("Publish-Token", "")
     token = session.get("publish_token")
     print(token)
@@ -86,3 +87,38 @@ def publish_product():
         return jsonify({"success": True, "product": new_product.to_dict()}), 201
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
+    
+@api.route('/api/products')
+def get_products_grouped_by_tags():
+    """
+    Returns a paginated list of products as JSON.
+    """
+    page = request.args.get('page', 1, type=int)
+    per_page = 5  # Items per page
+    
+    # Use joinedload to eagerly load the products for each tag
+    pagination = Tags.query.options(joinedload(Tags.product)).paginate(
+        page=page,
+        per_page=per_page,
+        error_out=False
+    )
+    
+    # Serialize the products and their tags into a JSON-friendly format
+    product_list = {}
+    # {category: [{product_data}, ...], category2: [{...}], ...}
+    for tag in pagination.items:
+        category = tag.name
+        product_list[category] = []
+        for product in tag.product:
+            product_data = {
+                'name': product.name,
+                'description': product.description,
+                'image_url': product.image_url,
+                'tags': [p_tag.name for p_tag in product.tags]
+            }
+            product_list[category].append(product_data)
+
+    return jsonify({
+        'categories': product_list,
+        'has_next': pagination.has_next
+    })
