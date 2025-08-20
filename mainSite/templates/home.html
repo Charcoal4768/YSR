@@ -4,6 +4,9 @@
     <meta name="description" content="YSR Shine Solutions - Your ">
     <meta name="keywords" content="YSR, Shine, Solutions, Business">
 {% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='home.js') }}"></script>
+{% endblock %}
 {% block content %}
 <div class="pageLander shine">
     <div class="paneLayout">
@@ -34,11 +37,11 @@
             <h2>Our Products</h2>
         </div>
     </div>
-    <div id="product-list" data-has-next="{{ has_next }}" data-page="1">
+    <div id="product-list" data-page="{{ tags_pagination.page }}" data-has-next="{{ tags_pagination.has_next }}">
         {% for category in categories %}
         <div class="category-section">
-            <div class="layer left category-heading animate right" id="cat-{{ category.name }}">
-                <h2>{{ category.name }}</h2>
+            <div class="layer left category-heading animate left">
+                <h2 id="cat-{{ category.name }}">{{ category.name }}</h2>
             </div>
             <div class="layer right">
             {% for product in category.product %}

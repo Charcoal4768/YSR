@@ -91,34 +91,35 @@ def publish_product():
 @api.route('/api/products')
 def get_products_grouped_by_tags():
     """
-    Returns a paginated list of products as JSON.
+    Returns a paginated list of categories, each with all their products.
+    One page = N categories, with full product lists.
     """
     page = request.args.get('page', 1, type=int)
-    per_page = 5  # Items per page
-    
-    # Use joinedload to eagerly load the products for each tag
-    pagination = Tags.query.options(joinedload(Tags.product)).paginate(
+    per_page = 2  # load 2 categories per scroll
+
+    tags_pagination = Tags.query.paginate(
         page=page,
         per_page=per_page,
         error_out=False
     )
-    
-    # Serialize the products and their tags into a JSON-friendly format
-    product_list = {}
-    # {category: [{product_data}, ...], category2: [{...}], ...}
-    for tag in pagination.items:
-        category = tag.name
-        product_list[category] = []
-        for product in tag.product:
-            product_data = {
-                'name': product.name,
-                'description': product.description,
-                'image_url': product.image_url,
-                'tags': [p_tag.name for p_tag in product.tags]
-            }
-            product_list[category].append(product_data)
+
+    categories = []
+    for tag in tags_pagination.items:
+        products = Product.query.join(Product.tags).filter(Tags.id == tag.id).all()
+        categories.append({
+            'name': tag.name,
+            'products': [
+                {
+                    'name': product.name,
+                    'description': product.description,
+                    'image_url': product.image_url,
+                    'tags': [t.name for t in product.tags]
+                }
+                for product in products
+            ]
+        })
 
     return jsonify({
-        'categories': product_list,
-        'has_next': pagination.has_next
+        'categories': categories,
+        'has_next': tags_pagination.has_next
     })

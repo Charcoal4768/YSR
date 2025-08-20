@@ -40,7 +40,6 @@ def load_user(user_id):
     
 @app.errorhandler(Exception)
 def handle_exception(error):
-    print(error)
     return render_template('errors.html', error=error), 500
 
 @socket.on('join')

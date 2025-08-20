@@ -126,6 +126,42 @@ img.logo {
 .sidebar .extra ul li{
     color: #006eff;
 }
+.catalog-items {
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    padding: 20px;
+}
+.catalog-items h3 {
+    position: relative;
+    font-size: var(--normal-font-size);
+    font-weight: lighter;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 12px;
+    overflow: hidden;
+    z-index: 1;
+}
+.catalog-items h3::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0px;
+    height: 100%;
+    background-color: #006eff;
+    border-radius: 12px;
+    transition: 0.3s ease-in-out;
+    z-index: -1;
+}
+.catalog-items h3:hover {
+    color: white;
+    cursor: pointer;
+    background-color: #e6e6e6;
+}
+.catalog-items h3:hover::before {
+    width: 100%;
+}
+
 .burger{
     display: flex;
     flex-direction: column;
