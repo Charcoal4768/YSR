@@ -73,4 +73,4 @@ Built with **Flask**, **PostgreSQL**, and **Google Cloud Storage**, the project 
 
 ## IMPORTANT DISCLAIMER
 **YOU ARE NOT PERMITTED TO CLONE THIS REPO OR USE THE CODE FROM IT TO DEPLOY ANY COMMERCIAL WEB APPLICATIONS OR OTHER SOFTWARE.**
-For more information, see: [The License](LICENSE.md)
+For more information, see: [The License](https://github.com/Charcoal4768/YSR/blob/main/LISENCE.md)
