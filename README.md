@@ -71,5 +71,6 @@ Built with **Flask**, **PostgreSQL**, and **Google Cloud Storage**, the project 
 
 ---
 
-## ⚙️ Project Structure
-
+## IMPORTANT DISCLAIMER
+**YOU ARE NOT PERMITTED TO CLONE THIS REPO OR USE THE CODE FROM IT TO DEPLOY ANY COMMERCIAL WEB APPLICATIONS OR OTHER SOFTWARE.**
+For more information, see: [The License](LICENSE.md)
