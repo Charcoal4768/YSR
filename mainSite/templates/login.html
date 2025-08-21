@@ -20,12 +20,11 @@ Log In
                     <form method="POST">
                         <label for="email">Email:</label>
                         <input type="email" id="email" name="email" required>
-
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                         <label for="password">Password:</label>
                         <input type="password" id="password" name="password" required>
                         <label for="show-password">Show Password</label>
                         <input type="checkbox" id="show-password">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                         <button type="submit" class="bluebutton">Log In</button>
                     </form>
                 </div>

@@ -23,12 +23,12 @@
     <nav>
         <div class="logo">
             <a href="{{ url_for('views.home') }}"><img class="logo small"
-                    src="{{ url_for('static', filename='default_images/CRYSTAL alt.png') }}" alt="Logo"></a>
+                    src="{{ url_for('static', filename='default_images/YSR_shine_mini_2-removebg-preview.png') }}" alt="Logo"></a>
         </div>
         <div class="links">
             <ul>
                 <li class="disposable"><a href="{{ url_for('views.home') }}">Home</a></li>
-                <li><a href="{{ url_for('views.contact') }}">Get Quote</a></li>
+                <li><a href="{{ url_for('views.home') }}#Quote-form" class="rainbow-text rainbow-enter" id="Quote-button">Get Quote</a></li>
                 <li class="subnav">
                     <div class="burger">
                         <div class="line"></div>
@@ -40,6 +40,9 @@
         </div>
     </nav>
     <div class="sidebar animate right">
+        <div class="banner">
+            <img src="{{ url_for('static', filename='default_images/YSR_shine_mini_2-removebg-preview.png') }}" alt="Banner">
+        </div>
         <div class="subheading animate right">
             <h2>Looking for something <em>specific?</em></h2>
         </div>

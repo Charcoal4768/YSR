@@ -15,6 +15,7 @@ app.config['WTF_CSRF_SECRET_KEY'] = os.getenv('WTF_CSRF_SECRET_KEY')
 app.config['SESSION_COOKIE_SECURE'] = not app.debug and not app.testing
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+app.config['SESSION_COOKIE_DOMAIN'] = None
 
 db = SQLAlchemy(app)
 csrf = CSRFProtect(app)
@@ -40,6 +41,7 @@ def load_user(user_id):
     
 @app.errorhandler(Exception)
 def handle_exception(error):
+    print(error, Exception)
     return render_template('errors.html', error=error), 500
 
 @socket.on('join')

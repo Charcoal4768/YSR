@@ -1,5 +1,5 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash
-from flask_login import login_user
+from flask_login import login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_wtf.csrf import generate_csrf, validate_csrf
 from mainSite.models import User
@@ -26,12 +26,18 @@ def login():
 @auth.route('/logout')
 def logout():
     # Handle logout logic
+    logout_user()
     return redirect(url_for('views.home'))
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
         csrf_token = request.form.get('csrf_token')
+        try:
+            validate_csrf(csrf_token)
+        except:
+            flash('Invalid CSRF token.', 'danger')
+            return redirect(url_for('auth.login'))
         # Handle signup logic
         name = request.form['name']
         email = request.form['email']

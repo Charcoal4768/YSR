@@ -27,7 +27,6 @@ const fetchProducts = async (page) => {
 
             const categoryHeading = document.createElement('div');
             categoryHeading.className = 'layer left category-heading animate left';
-            observer.observe(categoryHeading);
             categoryHeading.innerHTML = `<h2 id="cat-${category.name}">${category.name}</h2>`;
             categorySection.appendChild(categoryHeading);
 
@@ -37,7 +36,6 @@ const fetchProducts = async (page) => {
             category.products.forEach(product => {
                 const productCard = document.createElement('div');
                 productCard.className = 'productCard animate up';
-                observer.observe(productCard);
                 productCard.innerHTML = `
                     <div class="mobileTitle"><h2>${product.name}</h2></div>
                     <div class="productLogo"><div class="publishedLogo">
@@ -57,6 +55,8 @@ const fetchProducts = async (page) => {
 
             categorySection.appendChild(productContainer);
             productList.appendChild(categorySection);
+            window.observeAnimateElements();
+            window.addSideBarLinks();
         });
 
         currentPage++;
