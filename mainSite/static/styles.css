@@ -45,8 +45,8 @@ nav {
     top: 0;
     z-index: 1000;
     width: 80%;
-    justify-self: center;
-    align-self: center;
+    left: 50%; /* Position the left edge at the horizontal center */
+    transform: translateX(-50%); /* Move it back by half of its width */
     border-bottom: 1px solid #3333331f;
     transition: 0.3s ease;
 }
@@ -599,7 +599,7 @@ img.showcase.large.faded{
 }
 .animate{
     opacity: 0;
-    transition: opacity 600ms ease-out, transform 300ms ease-out;
+    transition: opacity 300ms ease-out, transform 200ms ease-out;
 }
 /* .animate.visible{
     opacity: 1;
@@ -608,25 +608,25 @@ img.showcase.large.faded{
     transform: translateY(30px);
 }
 .animate.up.visible {
-    animation: fadeSlideUp 0.6s ease forwards;
+    animation: fadeSlideUp 0.3s ease forwards;
 }
 .animate.right {
     transform: translateX(-30px);
 }
 .animate.right.visible{
-    animation: fadeSlideRight 0.6s ease forwards;
+    animation: fadeSlideRight 0.3s ease forwards;
 }
 .animate.left {
     transform: translateX(30px);
 }
 .animate.left.visible {
-    animation: fadeSlideLeft 0.6s ease forwards;
+    animation: fadeSlideLeft 0.3s ease forwards;
 }
 .animate.fade.visible {
-    animation: fade 0.6s ease forwards;
+    animation: fade 0.3s ease forwards;
 }
 .animate.grow.visible{
-    animation: growFullWidth 0.6s ease-out forwards;
+    animation: growFullWidth 0.3s ease-out forwards;
 }
 
 /*Animations*/
