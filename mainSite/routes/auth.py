@@ -54,7 +54,8 @@ def signup():
         if user:
             flash('Email already registered. Please log in.', 'danger')
             return redirect(url_for('auth.login'))
-        new_user = User.make_user(username=name, email=email, password=password)
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+        new_user = User.make_user(username=name, email=email, password=hashed_password)
         login_user(new_user)
         flash(f'Signed up as {email}! You can now add more details.', 'success')
         return redirect(url_for('views.home'))
