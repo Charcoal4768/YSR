@@ -11,9 +11,9 @@
 YSR Shine Solutions is a product catalog and contact platform for a cleaning solutions business.  
 It combines a secure admin dashboard with a smooth, SEO-friendly customer experience, including infinite scrolling product discovery.
 
-Built with **Flask**, **PostgreSQL**, and **Google Cloud Storage**, **Google Cloud VMs**, **PostgresQL**, **SQLite** the project demonstrates how to balance security, scalability, and UX in a real-world business setting.
-Uses Google cloud VM instances and gunicorn workers for production deplyoment.
-Custom SQlite based security tokens and OTPs, postgresql based database management
+Built with **Flask**, **PostgreSQL**, and **Google Cloud Storage**, **Google Cloud VMs**, **PostgreSQL**, **SQLite** the project demonstrates how to balance security, scalability, and UX in a real-world business setting.
+Uses Google Cloud VM instances with Gunicorn workers for production deplyoment.
+Custom SQLite based security tokens and OTPs, PostgreSQL based database management
 
 ---
 
@@ -47,10 +47,11 @@ Custom SQlite based security tokens and OTPs, postgresql based database manageme
 ## 🛠️ Tech Stack
 
 - **Backend**: Flask, SQLAlchemy, Flask-Login, Flask-WTF  
-- **Database**: PostgreSQL  
-- **Frontend**: Jinja2, Vanilla JS (custom infinite scroll), HTML5, CSS3  
-- **Storage**: Google Cloud Storage (for product images)  
-- **Security**: CSRF protection, role-based access, secure file uploads  
+- **Database**: PostgreSQL, SQLite
+- **Frontend**: Jinja2, Vanilla JS (api calls, dynamic infinite scroll, smooth animations, etc), HTML5, CSS3  
+- **Storage**: Google Cloud Storage (for product images)
+- **Security**: CSRF protection, role-based access, secure file uploads
+- **Hosting**: Google Cloud VMs
 
 ---
 
