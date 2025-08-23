@@ -6,20 +6,23 @@
 {% endblock %}
 {% block scripts %}
 <script src="{{ url_for('static', filename='home.js') }}"></script>
+<script src="{{ url_for('static', filename='contact.js') }}"></script>
 {% endblock %}
 {% block content %}
-<div class="pageLander">
+<div class="pageLander shine">
     <div class="paneLayout">
         <div class="animate up secondary smaller">
             <div class="contactForm" id="Quote-form">
-                <form method="post">
+                <form>
                     <div class="heading animate up">Get a Quote today</div>
-                    <input type="text" name="name" placeholder="Your Company/Name" required>
-                    <input type="email" name="email" placeholder="Your Email" required>
-                    <textarea name="address1" placeholder="Address Line 1" required></textarea>
-                    <textarea name="address2" placeholder="Address Line 2"></textarea>
-                    <textarea name="message" placeholder="Your Message" required></textarea>
-                    <button type="submit" class="bluebutton">Send Message</button>
+                    <input type="text" name="name" placeholder="Your Company/Name" required id="name">
+                    <input type="email" name="email" placeholder="Your Email" required id="email">
+                    <input type="tel" name="phone" placeholder="Your Phone Number" required id="phone">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}" id="csrf_token">
+                    <textarea name="address1" placeholder="Address Line 1" required id="addr1"></textarea>
+                    <textarea name="address2" placeholder="Address Line 2" id="addr2"></textarea>
+                    <textarea name="message" placeholder="Your Message" id="msg"></textarea>
+                    <button class="bluebutton">Send Message</button>
                 </form>
             </div>
             <img class="showcase large faded" src="{{ url_for('static', filename='default_images/test.png') }}" alt="Logo">

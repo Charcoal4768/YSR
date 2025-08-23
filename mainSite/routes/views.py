@@ -12,7 +12,7 @@ from mainSite.models import Product, Tags
 from sqlalchemy.orm import joinedload
 views = Blueprint('views', __name__)
 
-@views.route('/', methods=['GET'])
+@views.route('/', methods=['GET','POST'])
 def home():
     csrf_token = generate_csrf()
 

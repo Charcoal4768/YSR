@@ -41,7 +41,7 @@ p {
 nav {
     background-color: transparent;
     display: flex;
-    position: sticky;
+    position: fixed;
     top: 0;
     z-index: 1000;
     width: 80%;
@@ -55,7 +55,7 @@ nav .links {
     margin-left: auto;
 }
 nav.scrolled{
-    position: sticky;
+    position: fixed;
     width: 100%;
     background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -352,6 +352,18 @@ img.showcase{
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+/* textarea:required:focus:invalid, input:required:focus:invalid {
+    background-color: #ffe6e6; make this color less agressive
+} */
+input:required:valid { /* Green border when valid */
+    border-color: #4CAF50; /* Green border */
+    background-color: #eaffea; /* Light green background */
+}
+/* input:required:focus:invalid::placeholder::after{
+    content: "Invalid input";
+    color: darkred;
+    font-weight: bold;
+} */
 .contactForm textarea{
     width: 100%;
     padding: var(--standard-padding);
@@ -409,15 +421,10 @@ button.bluebutton{
     cursor: pointer;
     font-size: var(--normal-font-size);
 }
-button.products:disabled{
-    margin-top: 1rem;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: #eeeeee;
-    border-radius: 4px;
-    color: #979797;
-    font-size: var(--normal-font-size);
+button.bluebutton:disabled {
+    background-color: #a0c4ff; /* A lighter shade of blue */
+    cursor: not-allowed;
+    opacity: 0.7;
 }
 .authSidePanel {
     display: flex;
@@ -444,6 +451,16 @@ button.products{
     cursor: pointer;
     font-size: var(--normal-font-size);
     padding: var(--standard-padding);
+}
+button.products:disabled{
+    margin-top: 1rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #bebebe;
+    border-radius: 4px;
+    color: #979797;
+    font-size: var(--normal-font-size);
 }
 img.showcase.large{
     height: auto;
