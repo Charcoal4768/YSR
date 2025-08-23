@@ -70,9 +70,18 @@ const fetchProducts = async (page) => {
     }
 };
 
+let throttleTimeout = null;
+
 window.addEventListener('scroll', () => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
-        console.log('Fetching more products...');
-        fetchProducts(currentPage);
-    }
+    if (throttleTimeout) return; // exit if we're waiting
+
+    throttleTimeout = setTimeout(() => {
+        throttleTimeout = null; // reset throttle
+
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 800) {
+            console.log('Fetching more products...');
+            fetchProducts(currentPage);
+        }
+    }, 200); // throttle interval in ms (adjust as needed)
 });
+

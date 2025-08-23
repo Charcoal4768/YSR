@@ -49,4 +49,4 @@ const checkScroll = () => {
 };
 
 // Add the throttled scroll event listener
-window.addEventListener('scroll', throttle(checkScroll, 10)); // The function will run at most once every 100ms
+window.addEventListener('scroll', throttle(checkScroll, 50)); // The function will run at most once every 50ms
