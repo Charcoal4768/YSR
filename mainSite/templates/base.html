@@ -4,12 +4,19 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta property="og:locale" content="en_US" />
     <title>{% block title %}My Website{% endblock %}</title>
     {% block meta %}
     {% endblock %}
+    <meta name="twitter:description" content="Your trusted partner for cleaning solutions.">
+    <meta name="twitter:image" content="https://www.ysrshinesolutions.com/static/default_images/wetwUntitled.png">
+    <meta name="twitter:site" content="@YourTwitterHandle">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='fonts.css') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
+    <link rel="manifest" href="/static/site.webmanifest">
     <script src="{{ url_for('static', filename='scripts.js') }}"></script>
     <script src="{{ url_for('static', filename='animations_handler.js') }}"></script>
     {% block scripts %}
@@ -57,6 +64,9 @@
         </div>
         <hr>
         <div class="extra">
+            <div class="whatsapp">
+                <a aria-label="Chat on WhatsApp" href="https://api.whatsapp.com/send/?phone=917073154946&amp;text=Hello%2C%0AWe+would+like+to+know+more+about+the+Products+and+Services+of+YSR+Shine+Solutions&amp;type=phone_number&amp;app_absent=0" style="margin: auto;"> <img alt="Chat on WhatsApp" src="../static/default_images/WhatsAppButtonGreenLarge.svg"/></a>
+            </div>
             {% if current_user.is_authenticated %}
             <ul>
                 <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>

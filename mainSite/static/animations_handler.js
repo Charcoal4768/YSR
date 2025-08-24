@@ -14,7 +14,9 @@ const observer = new IntersectionObserver((entries) => {
         }
     });
 }, {
-    threshold: 0.1
+    // A higher threshold ensures the animation is less likely to re-trigger
+    // until more of the element is out of view.
+    threshold: [0, 0.25, 0.5, 0.75, 1.0]
 });
 
 function isInViewport(el) {

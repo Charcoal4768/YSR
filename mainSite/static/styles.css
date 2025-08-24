@@ -125,6 +125,7 @@ img.logo {
 }
 .sidebar.visible{
     display: block;
+    border-right: 1px solid #3333331f;
 }
 .sidebar .extra ul{
     padding: 0;
@@ -497,17 +498,37 @@ img.showcase.large.faded{
     background-repeat: no-repeat;
     background-position: center;
 }
+.whatsapp-floating{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    padding: var(--standard-container-padding);
+}
+.whatsapp{
+    background-color: #25d366;
+    overflow: hidden;
+    border-radius: 24px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.whatsapp a img{
+    object-position: center;
+    object-fit: cover;
+    width: 100%;
+}
 .publishedLogo > img{
-    max-width: 200px;
-    max-height: 200px;
+    width: 200px;
+    height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--standard-padding);
+    padding: var(--thin-container-padding);
     cursor: pointer;
     object-fit: contain;
     overflow: hidden;
     object-position: center;
+    background-color: #f1f1f1;
 }
 [contenteditable="true"]{
     border-bottom: 1px dashed #006eff4f;
@@ -721,7 +742,8 @@ img.showcase.large.faded{
      /*make the contact form a little smaller and centered horizontally*/
      .contactForm.visible{
         width: clamp(300px, 75vw, 500px);
-         margin: 0 auto;
+        margin: 0 auto;
+        background-color: #ffffff;
      }
     .paneLayout{
         flex-direction: column;

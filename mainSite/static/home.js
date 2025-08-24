@@ -35,21 +35,39 @@ function AddSideBarLinks() {
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => { AddSideBarLinks() }, 100);
     let quoteButton = document.getElementById("Quote-button");
+    let closeButton = document.getElementById("close-contact");
     quoteButton.addEventListener('click', (event) => {
         // prevent defaults
         event.preventDefault();
         const targetElement = document.getElementById("Quote-form");
+        const secondElement = document.getElementById("large-logo");
         window.scrollTo({
-            top: targetElement.getBoundingClientRect().top + window.scrollY - 40,
+            top: targetElement.getBoundingClientRect().top + window.scrollY - 100,
             behavior: "smooth"
         });
         if (!targetElement.classList.contains('visible')) {
             targetElement.classList.add('visible');
         }
+        secondElement.style.opacity = '';
+        if (!secondElement.classList.contains('faded')){
+            secondElement.classList.add('faded');
+        }
         // Reset animation by removing + re-adding the class
         targetElement.classList.remove('border-glow-resize');
         void targetElement.offsetWidth; // force reflow
         targetElement.classList.add('border-glow-resize');
+    });
+    closeButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        const targetElement = document.getElementById("Quote-form");
+        const secondElement = document.getElementById("large-logo");
+        if (targetElement.classList.contains('visible')) {
+            targetElement.classList.remove('visible');
+        }
+        if (secondElement.classList.contains('faded')){
+            secondElement.classList.remove('faded');
+            secondElement.style.opacity = 1;
+        }
     });
 });
 

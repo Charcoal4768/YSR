@@ -39,7 +39,7 @@ const fetchProducts = async (page) => {
                 productCard.innerHTML = `
                     <div class="mobileTitle"><h2>${product.name}</h2></div>
                     <div class="productLogo"><div class="publishedLogo">
-                        <img src="${product.image_url}" alt="${product.name}">
+                        <img src="${product.image_url}" alt="${product.name}" loading="lazy">
                     </div></div>
                     <div class="productBody">
                         <h2>${product.name}</h2>

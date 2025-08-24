@@ -55,7 +55,12 @@ def verify_publish_token(token: str) -> bool:
     with sqlite3.connect(DB_PATH) as conn:
         conn.execute("DELETE FROM publish_tokens WHERE created_at < ?", (cutoff,))
         cur = conn.execute("SELECT id FROM publish_tokens WHERE token=?", (token,))
-        return cur.fetchone() is not None
+        if cur.fetchone() is not None:
+            # Token is valid, now delete it
+            conn.execute("DELETE FROM publish_tokens WHERE token=?", (token,))
+            return True
+        else:
+            return False
 
 def store_otp(email: str, otp: str):
     with sqlite3.connect(DB_PATH) as conn:
@@ -104,7 +109,7 @@ def format_message_user(recipient:str, phone:str, mail:str, message:str):
     """Formats the email body for the user with masked info."""
     email = mask_string(mail, mask_until="@")
     phone = mask_string(phone, start=2, end=6)
-    snippet = message[:100] + ("..." if len(message) > 100 else "You didn't type anything here")
+    snippet = message[:100] + ("..." if len(message) > 1 else "You didn't type anything here")
     email_template = f"""<!doctype html><html xmlns=http://www.w3.org/1999/xhtml><meta content="text/html; charset=UTF-8"http-equiv=Content-Type><meta content="width=device-width,initial-scale=1"name=viewport><title>Quote Request Received</title><body style=margin:0;padding:0;background-color:#f5f5f5;font-family:Arial,sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%><table align=center border=0 cellpadding=0 cellspacing=0 role=presentation style=border-collapse:collapse width=100%><tr><td style="padding:40px 0"align=center><table align=center border=0 cellpadding=0 cellspacing=0 role=presentation style="width:100%;max-width:600px;background-color:#fff;border-radius:12px;box-shadow:0 4px 8px rgba(0,0,0,.05);border-spacing:0;border-collapse:collapse"class=container-table><tr><td style="text-align:center;padding:24px 20px;border-bottom:1px solid #e0e0e0"class=header><h1 style=color:#333;font-size:24px;margin:0>Thanks for your Quote Request!</h1><tr><td style=padding:20px class=content><p style="color:#555;font-size:16px;line-height:1.6;margin:0 0 16px">Hi, we have received your request for a quotation. An admin will reach out to you soon!<div class=collected-info-box style="background-color:#f9f9f9;border:1px solid #e0e0e0;border-radius:8px;padding:16px;margin-top:24px"><p style="color:#666;font-size:14px;margin:0 0 8px;line-height:1.5;font-weight:700">Information we collected:<p style="font-size:14px;margin:0 0 8px;color:#555"><strong>Phone:</strong> {phone}<p style="font-size:14px;margin:0 0 8px;color:#555"><strong>Email:</strong> {email}<p style="font-size:14px;margin:0 0 8px;color:#555"><strong>Your Message Snippet:</strong><p style=font-style:italic;color:#666;font-size:14px;margin:0;line-height:1.5>"{snippet}"</div></table></table>"""
     return email_template
 

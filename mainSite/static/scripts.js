@@ -4,7 +4,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (contactForm) {
       contactForm.classList.add('visible');
     }
-  }, 3000);
+  }, 10000);
+  setTimeout(function() {
+    const logo = document.getElementById('large-logo');
+    if (logo){
+      logo.classList.add('faded')
+    }
+  }, 8000);
   const burger = document.querySelector('.burger');
   burger.addEventListener('click', function() {
     const sidebar = document.querySelector('.sidebar');
