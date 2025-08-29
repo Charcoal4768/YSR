@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}YSR Shine Solutions{% endblock %}
 {% block meta %}
-    <meta name="description" content="YSR Shine Solutions - Your ">
-    <meta name="keywords" content="YSR, Shine, Solutions, Business">
+    <meta name="description" content="YSR Shine Solutions - Your Trusted Cleaning Partner">
     <meta property="og:title" content="YSR Shine Solutions">
     <meta property="og:type" content="Website" />
     <meta property="og:url" content="https://www.ysrshinesolutions.com/" />
@@ -17,15 +16,10 @@
     <meta property="og:description" content="YSR Shine Solutions - Your trusted partner for cleaning solutions." />
     <meta property="og:site_name" content="YSR Shine Solutions" />
     <meta name="robots" content="index, follow">
-    <meta name="author" content="YSR Shine Solutions">
-    <meta name="theme-color" content="#ff164d"> 
-    <link rel="canonical" href="https://www.ysrshinesolutions.com/">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="YSR Shine Solutions">
 {% endblock %}
 {% block scripts %}
-<script src="{{ url_for('static', filename='home.js') }}"></script>
-<script src="{{ url_for('static', filename='contact.js') }}"></script>
+<script src="{{ url_for('static', filename='home.js') }}" defer></script>
+<script src="{{ url_for('static', filename='contact.js') }}" async></script>
 {% endblock %}
 {% block content %}
 <div class="pageLander shine">
@@ -46,7 +40,7 @@
                     <a aria-label="Chat on WhatsApp" href="https://wa.me/917073154946" text="I'm%20interested%20in%20your%20products"> <img alt="Chat on WhatsApp" src="../static/default_images/WhatsAppButtonGreenSmall.svg" style="display: block; padding: var(--thin-container-padding);margin-left: auto; margin-right: auto;"/></a>
                 </form>
             </div>
-            <img class="showcase large" src="{{ url_for('static', filename='default_images/test.png') }}" alt="Logo" id="large-logo">
+            <img class="showcase large" src="{{ url_for('static', filename='default_images/test.avif') }}" alt="Logo" id="large-logo" fetchpriority="high">
         </div>
         <div class="TextBoxBig animate up priority bigger">
             <h1 class="heading">YSR Shine Solutions, your trusted cleaning solution.</h1>
@@ -61,48 +55,71 @@
     </a>
 </div>
 <div class="mainContent">
-    <div class="layer left animate right">
+    <div class="layer center animate right">
         <div class="heading">
             <h2>Our Products</h2>
         </div>
     </div>
     <div id="product-list" data-page="{{ tags_pagination.page }}" data-has-next="{{ tags_pagination.has_next }}">
-        {% for category in categories %}
-        <div class="category-section">
-            <div class="layer left category-heading animate left">
-                <h2 id="cat-{{ category.name }}">{{ category.name }}</h2>
-            </div>
-            <div class="layer right">
-            {% for product in category.product %}
-                <div class="productCard animate up">
-                    <div class="mobileTitle">
-                        <h2>{{ product.name }}</h2>
-                    </div>
-                    <div class="productLogo">
-                        <div class="publishedLogo">
-                            <img src="{{ product.image_url }}" alt="{{ product.name }}" loading="lazy">
-                        </div>
-                    </div>
-                    <div class="productBody">
-                        <h2>{{ product.name }}</h2>
-                        <div class="spacer"></div>
-                        <p>{{ product.description }}</p>
-                        <div class="tags">
-                            {% for tag in product.tags %}
-                                <span class="tag">{{ tag.name }}</span>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-            </div>
-        </div>
-        {% endfor %}
     </div>
     <div id="loading" style="text-align: center; display: none;">
         <p>Loading more products...</p>
     </div>
 </div>
+<script defer>
+document.addEventListener("DOMContentLoaded", function() {
+    function applyReadMoreLogic() {
+        const productDescriptions = document.querySelectorAll('.product-description');
+        const maxLength = 45;
 
-<script src="{{ url_for('static', filename='paginate_scroll.js') }}"></script>
+        productDescriptions.forEach(pTag => {
+            const originalDescription = pTag.getAttribute('data-original-text') || pTag.textContent.trim();
+            pTag.setAttribute('data-original-text', originalDescription); // Store original text
+
+            if (originalDescription.length > maxLength && window.matchMedia('(max-width: 768px)').matches) {
+                const truncatedText = originalDescription.substring(0, maxLength);
+                const moreText = originalDescription.substring(maxLength);
+
+                // Check if the read-more structure already exists to avoid duplication
+                if (pTag.querySelector('.read-more-btn')) {
+                    // Reset to original text before re-applying the structure
+                    pTag.innerHTML = originalDescription;
+                }
+
+                pTag.innerHTML = `
+                    <span class="truncated-text">${truncatedText}</span>
+                    <span class="more-text hidden">${moreText}</span>
+                    <a href="javascript:void(0);" class="read-more-btn">...Read More</a>
+                `;
+
+                // Add click event listener to the newly created button
+                pTag.querySelector('.read-more-btn').addEventListener('click', function() {
+                    const truncatedSpan = pTag.querySelector('.truncated-text');
+                    const moreSpan = pTag.querySelector('.more-text');
+                    
+                    if (moreSpan.classList.contains('hidden')) {
+                        moreSpan.classList.remove('hidden');
+                        this.textContent = 'Read Less';
+                    } else {
+                        moreSpan.classList.add('hidden');
+                        this.textContent = '...Read More';
+                    }
+                });
+            } else {
+                // If the screen is large or text is short, reset to original text
+                pTag.innerHTML = originalDescription;
+            }
+        });
+    }
+
+    applyReadMoreLogic();
+    // Re-apply logic on window resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(applyReadMoreLogic, 100); // Debounce
+    });
+});
+</script>
+<script src="{{ url_for('static', filename='paginate_scroll.js') }}" defer></script>
 {% endblock %}

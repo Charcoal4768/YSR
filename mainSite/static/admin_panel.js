@@ -47,15 +47,12 @@ document.addEventListener("DOMContentLoaded", () => {
         productName.textContent = mobileProductName.textContent;
     });
 
-// admin_panel.js (Updated)
-
     moreTags.addEventListener("click", () => {
         const newTag = document.createElement("span");
         newTag.classList.add("tag");
         newTag.contentEditable = "true";
         newTag.textContent = "New Category";
-        
-        // Use a more specific selector here as well
+
         const tagsContainer = document.querySelector("#product-fields-container .tags");
         tagsContainer.insertBefore(newTag, moreTags);
     });
@@ -68,66 +65,201 @@ document.addEventListener("DOMContentLoaded", () => {
 
     publishProductButton.addEventListener("click", () => {
         const productData = getLocalData();
-        
+        publishProductButton.disabled = true;
         fetch('/api/request_new_token', {
+                method: 'GET',
+                credentials: 'include'
+            })
+            .then(response => response.json())
+            .then(tokenData => {
+                if (tokenData.publish_token) {
+                    const formData = new FormData();
+                    formData.append('name', productData.name);
+                    formData.append('description', productData.description);
+                    formData.append('image', productData.image);
+                    formData.append('tags', JSON.stringify(productData.tags));
+                    console.log(formData);
+                    fetch('/api/publish_product', {
+                            method: 'POST',
+                            credentials: 'include',
+                            headers: {
+                                'Publish-Token': tokenData.publish_token
+                            },
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                console.log("Product published successfully:", data.product);
+                                productName.textContent = "";
+                                productDescription.textContent = "";
+                                file = null;
+                                document.querySelector(".customFileupload").style.backgroundImage = "";
+                                document.querySelector(".tags")
+                                    .querySelectorAll(".tag").forEach(tag => {
+                                        tag.remove();
+                                    });
+                                publishProductButton.disabled = false;
+                            } else {
+                                if (data.errordata.error.includes('duplicate key value violates unique constraint "product_tags_pkey"')) {
+                                    console.error("Error publishing product:", data.error);
+                                    const uniqueTags = new Set();
+                                    productData.tags = productData.tags.filter(tagId => {
+                                        const combination = `${productData.id}-${tagId}`;
+                                        if (uniqueTags.has(combination)) {
+                                            return false;
+                                        } else {
+                                            uniqueTags.add(combination);
+                                            return true;
+                                        }
+                                    });
+                                }
+                                console.error("Failed to publish product:", data.error);
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error publishing product:", error);
+                        });
+                } else {
+                    console.error("Failed to retrieve publish token");
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching publish token:", error);
+            });
+    });
+
+    const productsSection = document.querySelector(".productsSection");
+    let originalCardState = {};
+
+    const setEditable = (card, isEditable) => {
+        card.querySelectorAll('.product-name, .product-description, .tags .tag').forEach(el => {
+            el.contentEditable = isEditable;
+        });
+        card.querySelector('.edit-btn').style.display = isEditable ? 'none' : 'block';
+        card.querySelector('.delete-btn').style.display = isEditable ? 'none' : 'block';
+        card.querySelector('.save-btn').style.display = isEditable ? 'block' : 'none';
+        card.querySelector('.cancel-btn').style.display = isEditable ? 'block' : 'none';
+        card.querySelector('.add-tags-btn').style.display = isEditable ? 'inline-block' : 'none';
+        card.classList.toggle('is-editing', isEditable);
+        if (isEditable) {
+            card.querySelector('.productLogo').style.cursor = 'pointer';
+        } else {
+            card.querySelector('.productLogo').style.cursor = 'default';
+        }
+    };
+
+    const getPublishToken = async () => {
+        const response = await fetch('/api/request_new_token', {
             method: 'GET',
             credentials: 'include'
-        })
-        .then(response => response.json())
-        .then(tokenData => {
-            if (tokenData.publish_token) {
+        });
+        if (!response.ok) return null;
+        const data = await response.json();
+        return data.publish_token;
+    };
+
+    if (productsSection) {
+        productsSection.addEventListener("click", async (event) => {
+            const target = event.target;
+            const card = target.closest('.productCard');
+            if (!card) return;
+
+            const productId = card.dataset.productId;
+
+            if (target.classList.contains('edit-btn')) {
+                originalCardState[productId] = card.innerHTML;
+                setEditable(card, true);
+            }
+
+            if ((target.classList.contains('product-image') || target.closest('.productLogo')) && card.classList.contains('is-editing')) {
+                card.querySelector('.edit-product-image').click();
+            }
+
+            if (target.classList.contains('cancel-btn')) {
+                if (originalCardState[productId]) {
+                    card.innerHTML = originalCardState[productId];
+                    delete originalCardState[productId];
+                }
+            }
+
+            if (target.classList.contains('add-tags-btn')) {
+                const newTag = document.createElement("span");
+                newTag.className = "tag";
+                newTag.contentEditable = "true";
+                newTag.textContent = "New Tag";
+                target.before(newTag);
+                newTag.focus();
+            }
+
+            if (target.classList.contains('delete-btn')) {
+                if (confirm('Are you sure you want to delete this product?')) {
+                    const token = await getPublishToken();
+                    if (!token) return alert("Error: Could not get authorization.");
+                    const response = await fetch(`/api/delete_product/${productId}`, {
+                        method: 'DELETE',
+                        credentials: 'include',
+                        headers: {
+                            'Publish-Token': token
+                        }
+                    });
+                    const data = await response.json();
+                    if (data.success) card.remove();
+                    else alert(`Error: ${data.error}`);
+                }
+            }
+
+            if (target.classList.contains('save-btn')) {
+                target.disabled = true;
+                const token = await getPublishToken();
+                if (!token) {
+                    alert("Error: Could not get authorization.");
+                    return target.disabled = false;
+                }
+
                 const formData = new FormData();
-                formData.append('name', productData.name);
-                formData.append('description', productData.description);
-                formData.append('image', productData.image);
-                formData.append('tags', JSON.stringify(productData.tags));
-                console.log(formData)
-                // Now, use the received token to publish the product
-                fetch('/api/publish_product', {
+                formData.append('name', card.querySelector('.productBody .product-name').textContent.trim());
+                formData.append('description', card.querySelector('.product-description').textContent.trim());
+                formData.append('tags', JSON.stringify(Array.from(card.querySelectorAll('.tags .tag')).map(t => t.textContent.trim())));
+                const imageFile = card.querySelector('.edit-product-image').files[0];
+                if (imageFile) formData.append('image', imageFile);
+
+                const response = await fetch(`/api/edit_product/${productId}`, {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
-                        'Publish-Token': tokenData.publish_token
+                        'Publish-Token': token
                     },
                     body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        console.log("Product published successfully:", data.product);
-                        // clear all data and refresh page
-                        productName.textContent = "";
-                        productDescription.textContent = "";
-                        file = null;
-                        document.querySelector(".customFileupload").style.backgroundImage = "none";
-                        document.querySelector(".tags").innerHTML = "";
-                        location.reload();
-                    } else {
-                        if (data.errordata.error.includes('duplicate key value violates unique constraint "product_tags_pkey"')) {
-                            console.error("Error publishing product:", data.error);
-                            const uniqueTags = new Set();
-                            productData.tags = productData.tags.filter(tagId => {
-                            const combination = `${productData.id}-${tagId}`;
-                            if (uniqueTags.has(combination)) {
-                                return false; // Remove duplicate
-                            } else {
-                                uniqueTags.add(combination);
-                                return true; // Keep unique
-                                }
-                            });
-                        }
-                        console.error("Failed to publish product:", data.error);
-                    }
-                })
-                .catch(error => {
-                    console.error("Error publishing product:", error);
                 });
-            } else {
-                console.error("Failed to retrieve publish token");
+                const data = await response.json();
+
+                if (data.success) {
+                    card.querySelector('.product-image').src = data.product.image_url;
+                    setEditable(card, false);
+                } else {
+                    alert(`Error: ${data.error}`);
+                }
+                target.disabled = false;
             }
-        })
-        .catch(error => {
-            console.error("Error fetching publish token:", error);
         });
-    });
+
+        productsSection.addEventListener('change', (event) => {
+            if (event.target.classList.contains('edit-product-image')) {
+                const card = event.target.closest('.productCard');
+                const file = event.target.files[0];
+                if (file && card) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => card.querySelector('.product-image').src = e.target.result;
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
+        productsSection.addEventListener('blur', (event) => {
+            if (event.target.classList.contains('tag') && event.target.isContentEditable && event.target.textContent.trim() === "") {
+                event.target.remove();
+            }
+        }, true);
+    }
 });

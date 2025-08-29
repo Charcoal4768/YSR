@@ -1,36 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en_US">
 
 <head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.cloudflare.com https://*.google.com https://*.googleapis.com; style-src 'self' 'unsafe-inline' https://*.cloudflare.com https://*.google.com https://*.googleapis.com; img-src 'self' data: https://*.cloudflare.com https://*.google.com https://*.googleapis.com; font-src 'self' https://*.cloudflare.com https://*.gstatic.com; connect-src 'self' https://*.cloudflare.com https://*.google.com https://*.googleapis.com;">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta property="og:locale" content="en_US" />
+    <meta name="keywords" content="YSR, Shine, Solutions, Business, cleaning, products, services">
+    <meta property="og:type" content="website" />
     <title>{% block title %}My Website{% endblock %}</title>
     {% block meta %}
     {% endblock %}
+    <meta name="author" content="YSR Shine Solutions">
+    <meta name="theme-color" content="#ff164d"> 
+    <link rel="canonical" href="https://www.ysrshinesolutions.com/">
+    <link rel="preload" as="image" href="{{ url_for('static', filename='default_images/test.avif') }}">
+    <link rel="preload" as="image" href="../static/default_images/WhatsAppButtonGreenSmall.svg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="YSR Shine Solutions">
     <meta name="twitter:description" content="Your trusted partner for cleaning solutions.">
     <meta name="twitter:image" content="https://www.ysrshinesolutions.com/static/default_images/wetwUntitled.png">
     <meta name="twitter:site" content="@YourTwitterHandle">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='fonts.css') }}">
+    <link rel="preload" href="{{ url_for('static', filename='fonts.css') }}" as="style" onload="this.rel='stylesheet'">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
     <link rel="manifest" href="/static/site.webmanifest">
     <script src="{{ url_for('static', filename='scripts.js') }}"></script>
-    <script src="{{ url_for('static', filename='animations_handler.js') }}"></script>
     {% block scripts %}
     {% endblock %}
 </head>
 
 <body>
+    <script src="{{ url_for('static', filename='animations_handler.js') }}" defer></script>
     <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
     <nav>
         <div class="logo">
-            <a href="{{ url_for('views.home') }}"><img class="logo small"
-                    src="{{ url_for('static', filename='default_images/YSR_shine_mini_2-removebg-preview.png') }}" alt="Logo"></a>
+            <a href="{{ url_for('views.home') }}"><img class="logo small" src="{{ url_for('static', filename='default_images/YSR_shine_mini_2-removebg-preview.png') }}" alt="Logo"></a>
         </div>
         <div class="links">
             <ul>
@@ -48,7 +57,7 @@
     </nav>
     <div class="sidebar animate right">
         <div class="banner">
-            <img src="{{ url_for('static', filename='default_images/YSR_shine_mini_2-removebg-preview.png') }}" alt="Banner">
+            <img src="{{ url_for('static', filename='default_images/YSR_shine_mini_2-removebg-preview.png') }}" alt="Banner" loading="lazy">
         </div>
         <div class="subheading animate right">
             <h2>Looking for something <em>specific?</em></h2>
@@ -65,7 +74,7 @@
         <hr>
         <div class="extra">
             <div class="whatsapp">
-                <a aria-label="Chat on WhatsApp" href="https://api.whatsapp.com/send/?phone=917073154946&amp;text=Hello%2C%0AWe+would+like+to+know+more+about+the+Products+and+Services+of+YSR+Shine+Solutions&amp;type=phone_number&amp;app_absent=0" style="margin: auto;"> <img alt="Chat on WhatsApp" src="../static/default_images/WhatsAppButtonGreenLarge.svg"/></a>
+                <a aria-label="Chat on WhatsApp" href="https://api.whatsapp.com/send/?phone=917073154946&amp;text=Hello%2C%0AWe+would+like+to+know+more+about+the+Products+and+Services+of+YSR+Shine+Solutions&amp;type=phone_number&amp;app_absent=0" style="margin: auto;"> <img alt="Chat on WhatsApp" src="../static/default_images/WhatsAppButtonGreenLarge.svg" loading="lazy"/></a>
             </div>
             {% if current_user.is_authenticated %}
             <ul>

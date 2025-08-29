@@ -7,7 +7,7 @@ from secrets import token_urlsafe
 from datetime import datetime, timedelta
 from flask import Blueprint, jsonify, json, request
 from flask_login import login_required, current_user
-from mainSite.services.storage_service_gcp import upload_file
+from mainSite.services.storage_service_gcp import upload_and_optimize_file, delete_file_by_url
 from mainSite.services.temporary_account_service import make_temp_account
 from werkzeug.utils import secure_filename
 from mainSite.models import Tags, Product
@@ -70,7 +70,10 @@ def verify_otp(email: str, otp: str, expiry_minutes=10) -> bool:
     cutoff = datetime.utcnow() - timedelta(minutes=expiry_minutes)
     with sqlite3.connect(DB_PATH) as conn:
         cur = conn.execute("SELECT id FROM otp_codes WHERE email=? AND otp=? AND created_at >= ?", (email, otp, cutoff))
-        return cur.fetchone() is not None
+        if cur.fetchone() is not None:
+            conn.execute("DELETE FROM otp_codes WHERE email=? AND otp=?", (email, otp))
+            return True
+        return False
 
 # ---- Helper Functions ----
 def mask_string(s: str, start: int = 1, end: int = None, mask_until: str = None) -> str:
@@ -203,11 +206,74 @@ def publish_product():
 
     try:
         validFileName = secure_filename(image.filename)
-        authorizedFileUrl = upload_file(image, validFileName)
+        authorizedFileUrl = upload_and_optimize_file(image, validFileName)
         new_product = Product.add_product(name=name, description=description, image_url=authorizedFileUrl, tags=tags)
         return jsonify({"success": True, "product": new_product.to_dict()}), 201
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
+    
+@csrf.exempt
+@api.route('/api/edit_product/<int:product_id>', methods=['POST'])
+@login_required
+def edit_product(product_id):
+    if not current_user.is_authenticated or current_user.role != 'admin':
+        return jsonify({"error": "Unauthorized"}), 401
+    auth_header = request.headers.get("Publish-Token", "")
+    if not verify_publish_token(auth_header):
+        return jsonify({"error": "Publish token missing or invalid"}), 403
+
+    product = Product.get_product_by_id(product_id)
+    if not product:
+        return jsonify({"error": "Product not found"}), 404
+
+    name = request.form.get("name")
+    description = request.form.get("description")
+    tags_json = request.form.get("tags", "[]")
+    tags = json.loads(tags_json)
+    image = request.files.get("image")
+    
+    image_url = product.image_url
+
+    if image:
+        delete_file_by_url(product.image_url)
+        try:
+            validFileName = secure_filename(image.filename)
+            image_url = upload_and_optimize_file(image, validFileName)
+        except Exception as e:
+            return jsonify({"success": False, "error": f"Failed to upload new image: {e}"}), 500
+
+    try:
+        updated_product = Product.edit_product(
+            product_id=product_id,
+            name=name,
+            description=description,
+            image_url=image_url,
+            tags=tags
+        )
+        return jsonify({"success": True, "product": updated_product.to_dict()}), 200
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@csrf.exempt
+@api.route('/api/delete_product/<int:product_id>', methods=['DELETE'])
+@login_required
+def delete_product_api(product_id):
+    if not current_user.is_authenticated or current_user.role != 'admin':
+        return jsonify({"error": "Unauthorized"}), 401
+    auth_header = request.headers.get("Publish-Token", "")
+    if not verify_publish_token(auth_header):
+        return jsonify({"error": "Publish token missing or invalid"}), 403
+
+    product = Product.get_product_by_id(product_id)
+    if not product:
+        return jsonify({"error": "Product not found"}), 404
+
+    delete_file_by_url(product.image_url)
+    
+    if Product.delete_product(product_id):
+        return jsonify({"success": True, "message": "Product deleted"}), 200
+    else:
+        return jsonify({"success": False, "error": "Failed to delete product from database"}), 500
 
 @api.route('/api/generate_otp', methods=['POST'])
 def generate_otp():
@@ -225,7 +291,7 @@ def get_products_grouped_by_tags():
     """ Returns a paginated list of categories, each with all their products.
     One page = N categories, with full product lists. """
     page = request.args.get('page', 1, type=int)
-    per_page = 2
+    per_page = 1
     tags_pagination = Tags.query.paginate(page=page, per_page=per_page, error_out=False)
     categories = []
     for tag in tags_pagination.items:

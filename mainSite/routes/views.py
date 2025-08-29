@@ -15,19 +15,9 @@ views = Blueprint('views', __name__)
 @views.route('/', methods=['GET','POST'])
 def home():
     csrf_token = generate_csrf()
-
-    # Initial 2 categories for SEO
-    initial_categories_tags = Tags.query.limit(2).all()
-
-    initial_categories = []
-    for tag in initial_categories_tags:
-        products = Product.query.join(Product.tags).filter(Tags.name == tag.name).all()
-        initial_categories.append({'name': tag.name, 'product': products})
-
     return render_template('home.html',
                            csrf_token=csrf_token,
                            current_user=current_user,
-                           categories=initial_categories,
                            tags_pagination={'page': 1, 'has_next': True})  # dummy
 
 

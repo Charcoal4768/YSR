@@ -1,6 +1,6 @@
 const productList = document.getElementById('product-list');
 
-let currentPage = 2; // first page (2 categories) loaded server-side
+let currentPage = 1;
 let isLoading = false;
 let hasMore = true;
 const loadedCategories = new Set(); // 🔑 track categories already rendered
@@ -34,23 +34,64 @@ const fetchProducts = async (page) => {
             productContainer.className = 'layer right';
 
             category.products.forEach(product => {
+                const description = product.description;
+                const maxLength = 55;
+                let productDescriptionHTML;
+
+                // Conditionally apply 'Read More' logic based on screen size
+                if (description.length > maxLength && window.matchMedia('(max-width: 768px)').matches) {
+                    const truncated = description.substring(0, maxLength);
+                    const fullText = description.substring(maxLength);
+                    productDescriptionHTML = `
+                        <p class="product-description" data-original-text="${description}">
+                            <span class="truncated-text">${truncated}</span>
+                            <span class="more-text hidden">${fullText}</span>
+                            <a href="javascript:void(0);" class="read-more-btn">...Read More</a>
+                        </p>
+                    `;
+                } else {
+                    productDescriptionHTML = `<p class="product-description">${description}</p>`;
+                }
                 const productCard = document.createElement('div');
                 productCard.className = 'productCard animate up';
                 productCard.innerHTML = `
-                    <div class="mobileTitle"><h2>${product.name}</h2></div>
-                    <div class="productLogo"><div class="publishedLogo">
-                        <img src="${product.image_url}" alt="${product.name}" loading="lazy">
-                    </div></div>
+                    <div class="mobileTitle">
+                        <h2>${product.name}</h2>
+                    </div>
+                    <div class="productLogo">
+                        <div class="publishedLogo">
+                            <img src="${product.image_url}" alt="${product.name}" loading="lazy">
+                        </div>
+                    </div>
                     <div class="productBody">
                         <h2>${product.name}</h2>
                         <div class="spacer"></div>
-                        <p>${product.description}</p>
+                        ${productDescriptionHTML}
                         <div class="tags">
                             ${product.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                         </div>
                     </div>
                 `;
+
                 productContainer.appendChild(productCard);
+
+                // Add the event listener for the new card
+                if (description.length > maxLength && window.matchMedia('(max-width: 768px)').matches) {
+                    const readMoreBtn = productCard.querySelector('.read-more-btn');
+                    readMoreBtn.addEventListener('click', function() {
+                        const descriptionContainer = this.parentElement;
+                        const truncatedSpan = descriptionContainer.querySelector('.truncated-text');
+                        const moreSpan = descriptionContainer.querySelector('.more-text');
+                        
+                        if (moreSpan.classList.contains('hidden')) {
+                            moreSpan.classList.remove('hidden');
+                            this.textContent = 'Read Less';
+                        } else {
+                            moreSpan.classList.add('hidden');
+                            this.textContent = '...Read More';
+                        }
+                    });
+                }
             });
 
             categorySection.appendChild(productContainer);
@@ -84,4 +125,4 @@ window.addEventListener('scroll', () => {
         }
     }, 200); // throttle interval in ms (adjust as needed)
 });
-
+fetchProducts(1)

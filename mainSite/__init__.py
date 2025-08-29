@@ -6,6 +6,7 @@ from flask_socketio import SocketIO, join_room, leave_room
 from flask_migrate import Migrate
 from werkzeug.middleware.proxy_fix import ProxyFix
 from dotenv import load_dotenv
+from .utils import slugify
 import os
 
 app = Flask(__name__)
@@ -17,6 +18,7 @@ app.config['SESSION_COOKIE_SECURE'] = not app.debug and not app.testing
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 app.config['SESSION_COOKIE_DOMAIN'] = None
+app.jinja_env.filters['slugify'] = slugify
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
 db = SQLAlchemy(app)

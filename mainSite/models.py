@@ -87,10 +87,11 @@ class Product(db.Model):
     image_url = db.Column(db.String(255), nullable=False)
     name = db.Column(db.String(150), nullable=False)
     description = db.Column(db.Text, nullable=True)
-    tags = db.relationship('Tags', secondary='product_tags', back_populates='product')
+    tags = db.relationship('Tags', secondary='product_tags', back_populates='product', lazy='joined')
 
     def __repr__(self):
         return f'<Product {self.name}>'
+        
     def to_dict(self):
         return {
             "id": self.id,
@@ -103,9 +104,11 @@ class Product(db.Model):
     @classmethod
     def get_product_by_id(cls, product_id:int):
         return cls.query.get(product_id)
+        
     @classmethod
     def get_products_by_tag(cls, tag_name:str):
         return cls.query.join(product_tags).join(Tags).filter(Tags.name == tag_name).all()
+        
     @classmethod
     def add_product(cls, image_url:str, name:str, description:str, tags:list):
         product = cls(image_url=image_url, name=name, description=description)
@@ -122,8 +125,9 @@ class Product(db.Model):
         db.session.add(product)
         db.session.commit()
         return product
+        
     @classmethod
-    def edit_product(cls, product_id:int, image_url:str, name:str, description:str, tags:list):
+    def edit_product(cls, product_id:int, name:str=None, description:str=None, image_url:str=None, tags:list=None):
         product = cls.get_product_by_id(product_id)
         if product:
             if image_url:
@@ -132,10 +136,21 @@ class Product(db.Model):
                 product.name = name
             if description:
                 product.description = description
-            if tags:
-                product.tags = tags
+            if tags is not None:
+                product.tags.clear() # Remove existing tags
+                tag_objects = []
+                unique_tags = list(set(tags))
+
+                for tag_str in unique_tags:
+                    tag = Tags.query.filter_by(name=tag_str).first()
+                    if not tag:
+                        tag = Tags(name=tag_str)
+                        db.session.add(tag)
+                    tag_objects.append(tag)
+                product.tags.extend(tag_objects)
             db.session.commit()
         return product
+        
     @classmethod
     def delete_product(cls, product_id:int):
         product = cls.get_product_by_id(product_id)

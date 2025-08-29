@@ -2,71 +2,84 @@
 {% block title %}
 Admin - Products
 {% endblock %}
+{% block meta %}
+<meta name="description" content="Admin - Manage Products">
+<meta property="og:title" content="Admin - Manage Products">
+<meta property="og:description" content="Admin - Manage Products">
+<meta name="robots" content="noindex">
+{% endblock %}
 {% block scripts %}
 <script src="{{ url_for('static', filename='admin_panel.js') }}"></script>
 {% endblock %}
 {% block content %}
 <div class="mainContent">
     <div class="adminCard">
-    <div class="heading animate right">
-        <h1>Manage Products</h1>
-    </div>
-    <button class="products" type="button" id="add-product-menu-button">Add Product</button>
-    <hr>
-    <div class="prodContainer" id="product-fields-container">
-        <div class="newProduct">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-            <div class="productCard">
-                <div class="mobileTitle">
-                    <h2 id="new-product-mobile-name" contenteditable="true">Product Name</h2>
-                </div>
-                <div class="productLogo">
-                    <input type="file" id="new-product-image" accept="image/*" hidden>
-                    <div class="customFileupload" id="upload-file-button">
-                        <!-- <span>Choose File</span> -->
-                    </div>
-                </div>
-                <div class="productBody" id="product-fields-container">
-                    <h2 contenteditable="true" id="new-product-name">Product Name</h2>
-                    <div class="tags">
-                        <span class="tag" contenteditable="true">Category Name</span>
-                        <button type="button" class="smallButton" id="add-tags">+</button>
-                    </div>
-                    <p contenteditable="true" id="new-product-description">Product Description</p>
-                </div>
-            </div>
-            <button type="button" id="add-product-button" class="bluebutton">Add Product</button>
+        <div class="heading animate right">
+            <h1>Manage Products</h1>
         </div>
-    </div>
-    <h2>Product List</h2>
-    {% if products %}
-        <div class="productsSection">
-            {% for product in products %}
-                <div class="productCard animate up">
+        <button class="products" type="button" id="add-product-menu-button">Add Product</button>
+        <hr>
+        <div class="prodContainer" id="product-fields-container">
+            <div class="newProduct">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                <div class="productCard">
                     <div class="mobileTitle">
-                        <h2>{{ product.name }}</h2>
+                        <h2 id="new-product-mobile-name" contenteditable="true">Product Name</h2>
                     </div>
                     <div class="productLogo">
-                        <div class="publishedLogo">
-                            <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                        <input type="file" id="new-product-image" accept="image/*" hidden>
+                        <div class="customFileupload" id="upload-file-button">
                         </div>
                     </div>
                     <div class="productBody">
-                        <h2>{{ product.name }}</h2>
-                        <div class="spacer"></div>
-                        <p>{{ product.description }}</p>
+                        <h2 contenteditable="true" id="new-product-name">Product Name</h2>
                         <div class="tags">
-                            {% for tag in product.tags %}
-                                <span class="tag">{{ tag.name }}</span>
-                            {% endfor %}
+                            <span class="tag" contenteditable="true">Category Name</span>
+                            <button type="button" class="smallButton" id="add-tags">+</button>
                         </div>
+                        <p contenteditable="true" id="new-product-description">Product Description</p>
                     </div>
                 </div>
+                <button type="button" id="add-product-button" class="bluebutton">Add Product</button>
+            </div>
+        </div>
+        <h2>Product List</h2>
+        {% if products %}
+        <div class="productsSection">
+            {% for product in products %}
+            <div class="productCard animate up" data-product-id="{{ product.id }}">
+                <div class="admin-controls" style="position: absolute; top: 10px; right: 10px; display: flex; gap: 5px; z-index: 5;">
+                    <button type="button" class="smallButton edit-btn">Edit</button>
+                    <button type="button" class="smallButton delete-btn">Delete</button>
+                    <button type="button" class="smallButton save-btn" style="display: none;">Save</button>
+                    <button type="button" class="smallButton cancel-btn" style="display: none;">Cancel</button>
+                </div>
+                <div class="mobileTitle">
+                    <h2 class="product-name" contenteditable="false">{{ product.name }}</h2>
+                </div>
+                <div class="productLogo">
+                    <div class="publishedLogo">
+                        <img src="{{ product.image_url }}" alt="{{ product.name }}" class="product-image">
+                        <input type="file" class="edit-product-image" accept="image/*" hidden>
+                    </div>
+                </div>
+                <div class="productBody">
+                    <h2 class="product-name" contenteditable="false">{{ product.name }}</h2>
+                    <div class="spacer"></div>
+                    <p class="product-description" contenteditable="false">{{ product.description }}</p>
+                    <div class="tags">
+                        {% for tag in product.tags %}
+                        <span class="tag" contenteditable="false">{{ tag.name }}</span>
+                        {% endfor %}
+                        <button type="button" class="smallButton add-tags-btn" style="display: none;">+</button>
+                    </div>
+                </div>
+            </div>
             {% endfor %}
         </div>
-    {% else %}
+        {% else %}
         <p>No products found.</p>
-    {% endif %}
+        {% endif %}
     </div>
 </div>
 {% endblock %}
