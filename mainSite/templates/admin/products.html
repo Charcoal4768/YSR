@@ -9,7 +9,8 @@ Admin - Products
 <meta name="robots" content="noindex">
 {% endblock %}
 {% block scripts %}
-<script src="{{ url_for('static', filename='admin_panel.js') }}"></script>
+<script src="{{ url_for('static', filename='admin_panel.js') }}" defer></script>
+<script src="{{ url_for('static', filename='paginate_admin.js') }}" defer></script>
 {% endblock %}
 {% block content %}
 <div class="mainContent">
@@ -44,42 +45,10 @@ Admin - Products
             </div>
         </div>
         <h2>Product List</h2>
-        {% if products %}
-        <div class="productsSection">
-            {% for product in products %}
-            <div class="productCard animate up" data-product-id="{{ product.id }}">
-                <div class="admin-controls" style="position: absolute; top: 10px; right: 10px; display: flex; gap: 5px; z-index: 5;">
-                    <button type="button" class="smallButton edit-btn">Edit</button>
-                    <button type="button" class="smallButton delete-btn">Delete</button>
-                    <button type="button" class="smallButton save-btn" style="display: none;">Save</button>
-                    <button type="button" class="smallButton cancel-btn" style="display: none;">Cancel</button>
-                </div>
-                <div class="mobileTitle">
-                    <h2 class="product-name" contenteditable="false">{{ product.name }}</h2>
-                </div>
-                <div class="productLogo">
-                    <div class="publishedLogo">
-                        <img src="{{ product.image_url }}" alt="{{ product.name }}" class="product-image">
-                        <input type="file" class="edit-product-image" accept="image/*" hidden>
-                    </div>
-                </div>
-                <div class="productBody">
-                    <h2 class="product-name" contenteditable="false">{{ product.name }}</h2>
-                    <div class="spacer"></div>
-                    <p class="product-description" contenteditable="false">{{ product.description }}</p>
-                    <div class="tags">
-                        {% for tag in product.tags %}
-                        <span class="tag" contenteditable="false">{{ tag.name }}</span>
-                        {% endfor %}
-                        <button type="button" class="smallButton add-tags-btn" style="display: none;">+</button>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
+        <div class="productsSection" id="product-list"></div>
+        <div id="loading" style="text-align: center; display: none;">
+        <p>Loading more products...</p>
         </div>
-        {% else %}
-        <p>No products found.</p>
-        {% endif %}
     </div>
 </div>
 {% endblock %}

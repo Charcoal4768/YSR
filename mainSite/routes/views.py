@@ -39,12 +39,15 @@ def contact():
 @views.route('/admin/products', methods=['GET'])
 def admin_panel():
     """
-    Renders the admin products panel with all products.
+    Renders the admin products panel.
     """
     if not current_user.is_authenticated or current_user.role != 'admin':
         return redirect(url_for('views.home'))
     csrf_token = generate_csrf()
-    return render_template('admin/products.html', products=Product.query.all(), current_user=current_user, csrf_token=csrf_token)
+    return render_template('admin/products.html',
+                           current_user=current_user,
+                           csrf_token=csrf_token,
+                           products_pagination={'page': 1, 'has_next': True})  # dummy
 
 @views.route('/home', methods=['GET'])
 def redirect_home():

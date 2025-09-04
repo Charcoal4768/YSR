@@ -308,3 +308,29 @@ def get_products_grouped_by_tags():
             ]
         })
     return jsonify({'categories': categories, 'has_next': tags_pagination.has_next})
+
+@api.route('/api/products_all')
+def get_all_products_paginated():
+    """Returns a paginated list of all products for the admin panel."""
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 10, type=int)
+    products_pagination = Product.query.order_by(Product.id.desc()).paginate(
+        page=page, per_page=per_page, error_out=False
+    )
+    products_list = [
+        {
+            'id': product.id,
+            'name': product.name,
+            'description': product.description,
+            'image_url': product.image_url,
+            'tags': [tag.name for tag in product.tags]
+        }
+        for product in products_pagination.items
+    ]
+    return jsonify({
+        'products': products_list,
+        'has_next': products_pagination.has_next,
+        'page': products_pagination.page,
+        'per_page': products_pagination.per_page,
+        'total': products_pagination.total
+    })

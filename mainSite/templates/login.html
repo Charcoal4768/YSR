@@ -20,7 +20,7 @@
 Log In
 {% endblock %}
 {% block scripts %}
-<script src="{{ url_for('static', filename='login_script.js') }}"></script>
+<script src="{{ url_for('static', filename='login_script.js') }}" defer async></script>
 {% endblock %}
 {% block content %}
 <div class="mainContent">
