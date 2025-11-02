@@ -8,8 +8,10 @@
 
 ## 🚀 Overview
 
+[YSR Shine Solutions](https://ysrshinesolutions.com/) appears as teh frist search result in google for "ysr shine" and "ysr shine solutions" with 0$ of advertisement budget.
+
 YSR Shine Solutions is a product catalog and contact platform for a cleaning solutions business.  
-It combines a secure admin dashboard with a smooth, SEO-friendly customer experience, including infinite scrolling product discovery.
+It combines a secure admin dashboard with a smooth, SEO-friendly customer experience, including infinite scrolling product discovery. Responsive down to 50px viewport widths and has perfect core web vitals.
 
 Built with **Flask**, **PostgreSQL**, and **Google Cloud Storage**, **Google Cloud VMs**, **PostgreSQL**, **SQLite** the project demonstrates how to balance security, scalability, and UX in a real-world business setting.
 Uses Google Cloud VM instances with Gunicorn workers for production deplyoment.
