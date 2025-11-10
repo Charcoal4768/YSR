@@ -93,6 +93,17 @@
             {% endif %}
         </div>
         <hr>
+        <div class="subheading animate right">
+            <h2>Contact Us</h2>
+        </div>
+        <div class="subheading animate up">
+            <p style="text-decoration: underline;">Email:</p>
+            <p>ysrshinesolutions@gmail.com</p>
+            <p style="text-decoration: underline;">Phone:</p>
+            <p>+91 70731 54946</p>
+            <p style="text-decoration: underline;">Address:</p>
+            <p>Plot No 21, Balnath dham Akeda Dungar, Road No 17, Jaipur, Rajasthan, 30201</p>
+        </div>
     </div>
     {% for message in get_flashed_messages(with_categories=True) %}
     <div class="flash-message {{ message[0] }}" style="display: none;">
@@ -102,6 +113,36 @@
 
     {% block content %}
     {% endblock %}
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-header">
+    <p>© 2025 YSR Shine Solutions. All rights reserved.</p>
+    <span class="arrow">&#x25B2;</span>
+    <div class="tooltiptext">Click for more information.</div>
+  </div>
+  <div class="footer-content">
+    <div class="footer-section">
+      <h4>Contact Us</h4>
+      <p>Email: ysrshinesolutions@gmail.com</p>
+      <p>Phone: +91 70731 54946</p>
+    </div>
+    <div class="footer-section">
+      <h4>About Us</h4>
+      <p>GSTIN: 08ABEPO9909R1ZO</p>
+      <p>Address: Plot No 21, Balnath dham Akeda Dungar, Road No 17, Jaipur, Rajasthan, 30201</p>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelector('.footer-header').addEventListener('click', function() {
+  const content = document.querySelector('.footer-content');
+  const arrow = document.querySelector('.arrow');
+  content.classList.toggle('visible');
+  arrow.innerHTML = content.classList.contains('visible') ? '&#x25BC;' : '&#x25B2;';
+});
+</script>
+
 </body>
 
 </html>
