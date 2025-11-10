@@ -485,6 +485,18 @@ img.logo.small {
     transform: translateX(100%);
 }
 
+#loading{
+    position: fixed;
+    bottom: 50px;
+    /*center this horizontally*/
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 11;
+    background-color: rgba(255, 255, 255, 0.75);
+    border-radius: 4px;
+    padding: var(--standard-padding);
+}
+
 .TextBoxBig {
     align-self: center;
     align-items: center;
