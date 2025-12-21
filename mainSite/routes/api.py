@@ -5,7 +5,7 @@ import random
 import sqlite3
 from secrets import token_urlsafe
 from datetime import datetime, timedelta
-from flask import Blueprint, jsonify, json, request
+from flask import Blueprint, jsonify, json, request, current_app
 from flask_login import login_required, current_user
 from mainSite.services.storage_service_gcp import upload_and_optimize_file, delete_file_by_url
 from mainSite.services.temporary_account_service import make_temp_account

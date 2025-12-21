@@ -91,8 +91,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         .then(data => {
                             if (data.success) {
                                 console.log("Product published successfully:", data.product);
-                                productName.textContent = "";
-                                productDescription.textContent = "";
+                                createMessage("success", "Product published successfully.");
+                                productName.textContent = "Type Name Here";
+                                productDescription.textContent = "Enter product description here...";
                                 file = null;
                                 document.querySelector(".customFileupload").style.backgroundImage = "";
                                 document.querySelector(".tags")
@@ -103,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             } else {
                                 if (data.errordata.error.includes('duplicate key value violates unique constraint "product_tags_pkey"')) {
                                     console.error("Error publishing product:", data.error);
+                                    createMessage("error", "Duplicate tag error while publishing product.");
                                     const uniqueTags = new Set();
                                     productData.tags = productData.tags.filter(tagId => {
                                         const combination = `${productData.id}-${tagId}`;
@@ -115,17 +117,21 @@ document.addEventListener("DOMContentLoaded", () => {
                                     });
                                 }
                                 console.error("Failed to publish product:", data.error);
+                                createMessage("error", "Error publishing product.");
                             }
                         })
                         .catch(error => {
                             console.error("Error publishing product:", error);
+                            createMessage("error", "Error publishing product.");
                         });
                 } else {
                     console.error("Failed to retrieve publish token");
+                    createMessage("error", "Failed to retrieve publish token.");
                 }
             })
             .catch(error => {
                 console.error("Error fetching publish token:", error);
+                createMessage("error", "Error fetching publish token.");
             });
     });
 
@@ -195,7 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (target.classList.contains('delete-btn')) {
                 if (confirm('Are you sure you want to delete this product?')) {
                     const token = await getPublishToken();
-                    if (!token) return alert("Error: Could not get authorization.");
+                    if (!token) return createMessage("error", "Error: Could not get authorization.");
                     const response = await fetch(`/api/delete_product/${productId}`, {
                         method: 'DELETE',
                         credentials: 'include',
@@ -205,7 +211,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     });
                     const data = await response.json();
                     if (data.success) card.remove();
-                    else alert(`Error: ${data.error}`);
+                    else {
+                        console.error("Error deleting product:", data.error);
+                        createMessage("error", "Error deleting product.");
+                    }
                 }
             }
 
@@ -213,7 +222,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 target.disabled = true;
                 const token = await getPublishToken();
                 if (!token) {
-                    alert("Error: Could not get authorization.");
+                    console.error("Error: Could not get authorization.");
+                    createMessage("error", "Error: Could not get authorization.");
                     return target.disabled = false;
                 }
 
@@ -237,8 +247,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (data.success) {
                     card.querySelector('.product-image').src = data.product.image_url;
                     setEditable(card, false);
+                    createMessage("success", "Product updated successfully.");
                 } else {
-                    alert(`Error: ${data.error}`);
+                    console.error("Error updating product:", data.error);
+                    createMessage("error", "Error updating product.");
                 }
                 target.disabled = false;
             }

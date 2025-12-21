@@ -449,6 +449,61 @@ img.logo.small {
     flex: 1;
 }
 
+.flashContainer {
+    position: fixed;
+    top: 10%;
+    right: 10%;
+    left: 10%;
+    padding: var(--standard-container-padding);
+    margin: auto;
+    z-index: 9;
+    pointer-events: none;
+}
+
+.flashContainer .messageList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.flashContainer .messageList li {
+    padding: var(--standard-padding);
+    font-size: var(--normal-font-size);
+    padding-right: var(--standard-container-padding);
+}
+
+.messageContainer {
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    align-self: center;
+    max-width: 600px;
+    z-index: 9;
+    background-color: #CCFFCC;
+    padding-right: 1em;
+    border-radius: 4px;
+}
+
+.messageContainer.warning {
+    background-color: #fffd90;
+}
+
+.messageContainer.danger {
+    background-color: #FFBFBF;
+}
+
+.messageContainer .close-btn {
+    display: flex;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 4px;
+    align-items: center;
+    font-size: var(--medium-font-size);
+    pointer-events: auto;
+}
+
 .shine {
     position: relative;
     background-color: #c5c5c5;
@@ -786,6 +841,7 @@ img.showcase.large.faded {
 .productCard>.mobileTitle {
     display: none;
     order: 1;
+    padding-bottom: var(--thin-container-padding);
 }
 
 .productCard>.productBody {

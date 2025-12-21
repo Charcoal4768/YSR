@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html lang="en_US">
+<html lang="en-IN">
 
 <head>
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.cloudflare.com https://*.google.com https://*.googleapis.com; style-src 'self' 'unsafe-inline' https://*.cloudflare.com https://*.google.com https://*.googleapis.com; img-src 'self' data: https://*.cloudflare.com https://*.google.com https://*.googleapis.com; font-src 'self' https://*.cloudflare.com https://*.gstatic.com; connect-src 'self' https://*.cloudflare.com https://*.google.com https://*.googleapis.com;">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.cloudflare.com https://*.google.com https://*.googleapis.com https://*.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://*.cloudflare.com https://*.google.com https://*.googleapis.com https://*.cloudflareinsights.com; img-src 'self' data: https://*.cloudflare.com https://*.google.com https://*.googleapis.com https://*.cloudflareinsights.com; font-src 'self' https://*.cloudflare.com https://*.gstatic.com https://*.cloudflareinsights.com; connect-src 'self' https://*.cloudflare.com https://*.google.com https://*.googleapis.com https://*.cloudflareinsights.com;">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta property="og:locale" content="en_US" />
-    <meta name="keywords" content="YSR, Shine, Solutions, Business, cleaning, products, services">
+    <meta name="keywords" content="YSR, YSR Shine, Shine Solutions, Hotel Amenities, cleaning, Hotel Providers">
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_IN" />
     <title>{% block title %}My Website{% endblock %}</title>
     {% block meta %}
     {% endblock %}
     <meta name="author" content="YSR Shine Solutions">
-    <meta name="theme-color" content="#ff164d"> 
+    <meta name="theme-color" content="#ff164d">
     <link rel="canonical" href="https://www.ysrshinesolutions.com/">
-    <link rel="preload" as="image" href="{{ url_for('static', filename='default_images/test.avif') }}">
+    <link rel="preload" as="image" href="{{ url_for('static', filename='default_images/test2.avif') }}">
     <link rel="preload" as="image" href="../static/default_images/WhatsAppButtonGreenSmall.svg">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="YSR Shine Solutions">
@@ -39,12 +41,15 @@
         <![endif]-->
     <nav>
         <div class="logo">
-            <a href="{{ url_for('views.home') }}"><img class="logo small" src="{{ url_for('static', filename='default_images/YSR_shine_mini_2-removebg-preview.png') }}" alt="Logo"></a>
+            <a href="{{ url_for('views.home') }}"><img class="logo small"
+                    src="{{ url_for('static', filename='default_images/YSR_shine_mini_2-removebg-preview.png') }}"
+                    alt="Logo"></a>
         </div>
         <div class="links">
             <ul>
                 <li class="disposable"><a href="{{ url_for('views.home') }}">Home</a></li>
-                <li><a href="{{ url_for('views.home') }}#Quote-form" class="rainbow-text rainbow-enter" id="Quote-button">Get Quote</a></li>
+                <li><a href="{{ url_for('views.home') }}#Quote-form" class="rainbow-text rainbow-enter"
+                        id="Quote-button">Get Quote</a></li>
                 <li class="subnav">
                     <div class="burger">
                         <div class="line"></div>
@@ -55,9 +60,16 @@
             </ul>
         </div>
     </nav>
+    <div class="flashContainer">
+        <div class="messageList" id="flashed-message-list">
+            <div class="messageContainer {{category}}">
+            </div>
+        </div>
+    </div>
     <div class="sidebar animate right">
         <div class="banner">
-            <img src="{{ url_for('static', filename='default_images/YSR_shine_mini_2-removebg-preview.png') }}" alt="Banner" loading="lazy">
+            <img src="{{ url_for('static', filename='default_images/YSR_shine_mini_2-removebg-preview.png') }}"
+                alt="Banner" loading="lazy">
         </div>
         <div class="subheading animate right">
             <h2>Looking for something <em>specific?</em></h2>
@@ -74,7 +86,10 @@
         <hr>
         <div class="extra">
             <div class="whatsapp">
-                <a aria-label="Chat on WhatsApp" href="https://api.whatsapp.com/send/?phone=917073154946&amp;text=Hello%2C%0AWe+would+like+to+know+more+about+the+Products+and+Services+of+YSR+Shine+Solutions&amp;type=phone_number&amp;app_absent=0" style="margin: auto;"> <img alt="Chat on WhatsApp" src="../static/default_images/WhatsAppButtonGreenLarge.svg" loading="lazy"/></a>
+                <a aria-label="Chat on WhatsApp"
+                    href="https://api.whatsapp.com/send/?phone=917073154946&amp;text=Hello%2C%0AWe+would+like+to+know+more+about+the+Products+and+Services+of+YSR+Shine+Solutions&amp;type=phone_number&amp;app_absent=0"
+                    style="margin: auto;"> <img alt="Chat on WhatsApp"
+                        src="../static/default_images/WhatsAppButtonGreenLarge.svg" loading="lazy" /></a>
             </div>
             {% if current_user.is_authenticated %}
             <ul>
@@ -113,35 +128,58 @@
 
     {% block content %}
     {% endblock %}
-<!-- Footer -->
-<div class="footer">
-  <div class="footer-header">
-    <p>© 2025 YSR Shine Solutions. All rights reserved.</p>
-    <span class="arrow">&#x25B2;</span>
-    <div class="tooltiptext">Click for more information.</div>
-  </div>
-  <div class="footer-content">
-    <div class="footer-section">
-      <h4>Contact Us</h4>
-      <p>Email: ysrshinesolutions@gmail.com</p>
-      <p>Phone: +91 70731 54946</p>
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-header">
+            <p>© 2025 YSR Shine Solutions. All rights reserved.</p>
+            <span class="arrow">&#x25B2;</span>
+            <div class="tooltiptext">Click for more information.</div>
+        </div>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>Email: ysrshinesolutions@gmail.com</p>
+                <p>Phone: +91 70731 54946</p>
+            </div>
+            <div class="footer-section">
+                <h4>About Us</h4>
+                <p>GSTIN: 08ABEPO9909R1ZO</p>
+                <p>Address: Plot No 21, Balnath dham Akeda Dungar, Road No 17, Jaipur, Rajasthan, 30201</p>
+            </div>
+        </div>
     </div>
-    <div class="footer-section">
-      <h4>About Us</h4>
-      <p>GSTIN: 08ABEPO9909R1ZO</p>
-      <p>Address: Plot No 21, Balnath dham Akeda Dungar, Road No 17, Jaipur, Rajasthan, 30201</p>
-    </div>
-  </div>
-</div>
 
-<script>
-document.querySelector('.footer-header').addEventListener('click', function() {
-  const content = document.querySelector('.footer-content');
-  const arrow = document.querySelector('.arrow');
-  content.classList.toggle('visible');
-  arrow.innerHTML = content.classList.contains('visible') ? '&#x25BC;' : '&#x25B2;';
-});
-</script>
+    <script>
+        document.querySelector('.footer-header').addEventListener('click', function () {
+            const content = document.querySelector('.footer-content');
+            const arrow = document.querySelector('.arrow');
+            content.classList.toggle('visible');
+            arrow.innerHTML = content.classList.contains('visible') ? '&#x25BC;' : '&#x25B2;';
+        });
+        function createMessage(type, message) {
+            const messageContainer = document.querySelector(".flashContainer .messageList");
+            let messageElement = document.createElement("div");
+            messageElement.classList.add("messageContainer");
+            messageElement.classList.add(type);
+            let messageText = document.createElement("li");
+            messageText.innerText = message;
+            messageElement.appendChild(messageText);
+
+            // Create the close button
+            const closeButton = document.createElement("span");
+            closeButton.innerText = "×";
+            closeButton.classList.add("close-btn");
+            closeButton.onclick = function () {
+                messageElement.remove();
+            };
+            messageElement.appendChild(closeButton);
+            messageContainer.appendChild(messageElement);
+
+            setTimeout(() => {
+                messageElement.remove();
+            }, 6000);
+        }
+    </script>
 
 </body>
 

@@ -104,7 +104,7 @@ const fetchProducts = async (page) => {
         hasMore = data.has_next;
 
     } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error('Error fetching products:');
     } finally {
         isLoading = false;
         loadingIndicator.style.display = 'none';
