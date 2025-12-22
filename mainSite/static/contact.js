@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const Email = document.getElementById("email");
     const Message = document.getElementById("msg");
     const CSRFToken = document.getElementById("csrf_token");
+    const debug = false;
     function displaySuccessMessage() {
         // Create the message element
         const messageDiv = document.createElement('div');
@@ -63,8 +64,10 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
         submitbutton.disabled = true; // Disable the button to prevent multiple submissions
         const Data = getLocalData();
-        console.log(Data);
-        console.log(CSRFToken.value);
+        if (debug) {
+            console.log(Data);
+            console.log(CSRFToken.value);
+        }
         // Handle form submission
         fetch('/api/unauth_token', {
             method: 'GET',
@@ -72,7 +75,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }).then(response => response.json())
             .then(tokenData => {
                 if (tokenData.publish_token) {
-                    console.log(tokenData.publish_token);
+                    if (debug){
+                        console.log(tokenData.publish_token);
+                    }
                     fetch('/api/send_email', {
                         method: 'POST',
                         headers: {

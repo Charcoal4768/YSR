@@ -1,20 +1,20 @@
 {% extends "base.html" %}
 {% block meta %}
 <meta name="description" content="Log in to your YSR Shine Solutions account to manage your cleaning services.">
-    <meta name="description" content="YSR Shine Solutions - Login to your existing account">
-    <meta property="og:title" content="YSR Solutions - Login">
-    <meta property="og:url" content="https://www.ysrshinesolutions.com/" />
-    <meta property="og:image" content="https://www.ysrshinesolutions.com/static/default_images/wetwUntitled.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="YSR Shine Solutions - Your trusted partner for cleaning solutions." />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image" content="https://www.ysrshinesolutions.com/static/default_images/whatsapp_preview.png"/>
-    <meta property="og:image:width" content="300" />
-    <meta property="og:image:height" content="200" />
-    <meta property="og:description" content="YSR Shine Solutions - Login to your account" />
-    <meta property="og:site_name" content="YSR Shine Solutions" />
-    <meta name="robots" content="index, follow">
+<meta name="description" content="YSR Shine Solutions - Login to your existing account">
+<meta property="og:title" content="YSR Solutions - Login">
+<meta property="og:url" content="https://www.ysrshinesolutions.com/" />
+<meta property="og:image" content="https://www.ysrshinesolutions.com/static/default_images/wetwUntitled.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="YSR Shine Solutions - Your trusted partner for cleaning solutions." />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image" content="https://www.ysrshinesolutions.com/static/default_images/whatsapp_preview.png" />
+<meta property="og:image:width" content="300" />
+<meta property="og:image:height" content="200" />
+<meta property="og:description" content="YSR Shine Solutions - Login to your account" />
+<meta property="og:site_name" content="YSR Shine Solutions" />
+<meta name="robots" content="index, follow">
 {% endblock %}
 {% block title %}
 Log In
@@ -25,27 +25,43 @@ Log In
 {% block content %}
 <div class="mainContent">
     <div class="pageLander">
-        <div class="paneLayout">
-            <div class="animate up rel priority">
-                <div class="authForm">
-                    <div class="heading animate right">
+        <div class="imgBackgroundAuth">
+            <div class="imgBox">
+                <img class="animate fade" src="{{ url_for('static', filename='default_images/login_lander.png') }}"
+                    alt="Login Lander Image">
+                <div class="imgContent animate right">
+                    <h1>Welcome Back!</h1>
+                    <p>Log in to your existing account</p>
+                    <p><a href="/signup">Sign Up</a> for a new account</p>
+                    <p>or return to the <a href="/">Homepage</a></p>
+                </div>
+            </div>
+            <div class="contentBox">
+                <div class="authForm animate left">
+                    <div class="heading animate up">
                         <h2>Log In</h2>
                     </div>
                     <form method="POST">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
+                        <div class="material-input">
+                            <div class="input-container">
+                                <input type="email" autocomplete="email" name="email" id="email" required>
+                            </div>
+                            <div class="label">Email</div>
+                        </div>
                         <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
-                        <label for="password">Password:</label>
-                        <input type="password" id="password" name="password" required>
-                        <label for="show-password">Show Password</label>
-                        <input type="checkbox" id="show-password">
+                        <div class="material-input">
+                            <div class="input-container">
+                                <input type="password" autocomplete="current-password" name="password" id="password"
+                                    required>
+                            </div>
+                            <div class="label">Password</div>
+                        </div>
+                        <div> <label for="show-password">Show Password</label>
+                            <input type="checkbox" id="show-password">
+                        </div>
                         <button type="submit" class="bluebutton">Log In</button>
                     </form>
                 </div>
-            </div>
-            <div class="authSidePanel secondary useless">
-                <h2 class="heading animate right">Ready to Shine?</h2>
-                <p class="subheading animate up">Log in to manage your services and bookings.</p>
             </div>
         </div>
     </div>

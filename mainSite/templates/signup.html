@@ -25,13 +25,63 @@ Sign Up
 {% block content %}
 <div class="mainContent">
     <div class="pageLander">
-        <div class="paneLayout">
-            <div class="animate up rel priority">
-                <div class="authForm">
-                    <div class="heading animate right">
+        <div class="imgBackgroundAuth">
+            <div class="imgBox">
+                <img class="animate fade" src="{{ url_for('static', filename='default_images/login_lander.png') }}"
+                    alt="Login Lander Image">
+                <div class="imgContent animate right">
+                    <h1>Welcome!</h1>
+                    <p>Sign up for a new account</p>
+                    <p><a href="/login">LogIn</a> to an exisiting account</p>
+                    <p>or return to the <a href="/">Homepage</a></p>
+                </div>
+            </div>
+            <div class="contentBox">
+                <div class="authForm animate left">
+                    <div class="heading animate up">
                         <h2>Sign Up</h2>
                     </div>
                     <form method="POST">
+                        <div class="material-input">
+                            <div class="input-container">
+                                <input type="text" autocomplete="name" name="name" id="name" required>
+                            </div>
+                            <div class="label">Name</div>
+                        </div>
+                        <div class="material-input">
+                            <div class="input-container">
+                                <input type="email" autocomplete="email" name="email" id="email" required>
+                            </div>
+                            <div class="label">Email</div>
+                        </div>
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                        <div class="material-input">
+                            <div class="input-container">
+                                <input type="password" autocomplete="current-password" name="password" id="password"
+                                    required>
+                            </div>
+                            <div class="label">Password</div>
+                        </div>
+                        <div class="material-input">
+                            <div class="input-container">
+                                <input type="password" autocomplete="current-password" name="password2" id="password2"
+                                    required>
+                            </div>
+                            <div class="label">Confirm Password</div>
+                        </div>
+                        <div> <label for="show-password">Show Password</label>
+                            <input type="checkbox" id="show-password">
+                        </div>
+                        <button type="submit" class="bluebutton">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+                    <!-- <form method="POST">
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" required>
 
@@ -46,14 +96,4 @@ Sign Up
                     <input type="checkbox" id="show-password">
                     <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
                     <button type="submit" class="bluebutton">Sign Up</button>
-                    </form>
-                </div>
-            </div>
-            <div class="authSidePanel secondary useless">
-                <h2 class="heading animate right">Why Sign Up?</h2>
-                <p class="subheading animate up">Join us to access exclusive cleaning solutions tailored for your needs.</p>
-            </div>
-        </div>
-    </div>
-</div>
-{% endblock %}
+                    </form> -->

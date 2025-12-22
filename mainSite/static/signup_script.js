@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Your code to run when the DOM is fully loaded
-    document.getElementById("show-password").addEventListener("click", function() {
+    const checkbox = document.getElementById("show-password");
+    checkbox.addEventListener("click", function() {
         var passwordField = document.getElementById("password");
         var passwordField2 = document.getElementById("password2");
-        if (this.checked) {
+        if (checkbox.checked) {
+            console.log("Checked");
             passwordField.setAttribute("type", "text");
             passwordField2.setAttribute("type", "text");
         } else {
@@ -12,3 +13,4 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+

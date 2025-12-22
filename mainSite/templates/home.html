@@ -29,12 +29,37 @@
                 <div class="closeBtn" id="close-contact" style="position: absolute; right: 15px; top: 15px; color: red; z-index: 99;">&times;</div>
                 <form>
                     <div class="heading animate up">Get a Quote today</div>
-                    <input type="text" name="name" placeholder="Your Company/Name" required id="name">
-                    <input type="email" name="email" placeholder="Your Email" required id="email">
-                    <input type="tel" name="phone" placeholder="Your Phone Number" required id="phone">
+                    <div class="material-input">
+                        <div class="input-container">
+                            <input type="text" name="name" id="name" required>
+                        </div>
+                        <div class="label">Your Company/Name</div>
+                    </div>
                     <input type="hidden" name="csrf_token" value="{{ csrf_token }}" id="csrf_token">
-                    <textarea name="address1" placeholder="Address Line 1" required id="addr1"></textarea>
-                    <textarea name="address2" placeholder="Address Line 2" id="addr2"></textarea>
+                    <div class="material-input">
+                        <div class="input-container">
+                            <input type="email" name="email" id="email" required>
+                        </div>
+                        <div class="label">Your Email</div>
+                    </div>
+                    <div class="material-input">
+                        <div class="input-container">
+                            <input type="tel" name="phone" id="phone" required>
+                        </div>
+                        <div class="label">Your Phone Number</div>
+                    </div>
+                    <div class="material-input">
+                        <div class="input-container">
+                            <input type="text" name="address1" id="addr1" required></textarea>
+                        </div>
+                        <div class="label">Address Line 1</div>
+                    </div>
+                    <div class="material-input">
+                        <div class="input-container">
+                            <input type="text" name="address2" id="addr2"></textarea>
+                        </div>
+                        <div class="label">Address Line 2</div>
+                    </div>
                     <textarea name="message" placeholder="Your Message" id="msg"></textarea>
                     <button class="bluebutton">Send Message</button>
                     <a aria-label="Chat on WhatsApp" href="https://wa.me/917073154946" text="I'm%20interested%20in%20your%20products"> <img alt="Chat on WhatsApp" src="../static/default_images/WhatsAppButtonGreenSmall.svg" style="display: block; padding: var(--thin-container-padding);margin-left: auto; margin-right: auto;"/></a>
@@ -69,6 +94,7 @@
         <p>Loading more products...</p>
     </div>
 </div>
+
 <script defer>
 document.addEventListener("DOMContentLoaded", function() {
     function applyReadMoreLogic() {

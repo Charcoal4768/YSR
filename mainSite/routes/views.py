@@ -55,3 +55,10 @@ def redirect_home():
     Redirects from /home to the root URL.
     """
     return redirect(url_for('views.home'))
+
+# @views.route('/test', methods=['GET', 'POST'])
+# def test_page():
+#     """
+#     Renders a test page for development purposes.
+#     """
+#     return render_template('testing.html', current_user=current_user)
