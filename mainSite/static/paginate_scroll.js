@@ -17,9 +17,7 @@ const fetchProducts = async (page) => {
         const data = await response.json();
 
         data.categories.forEach(category => {
-            if (loadedCategories.has(category.name)) {
-                return; // skip duplicate category
-            }
+            if (loadedCategories.has(category.name)) return;
             loadedCategories.add(category.name);
 
             const categorySection = document.createElement('div');
@@ -35,29 +33,31 @@ const fetchProducts = async (page) => {
 
             category.products.forEach(product => {
                 const description = product.description;
-                const maxLength = 55;
+                const maxLength = 30;
                 let productDescriptionHTML;
 
-                // Conditionally apply 'Read More' logic based on screen size
+                // Check for mobile truncation
                 if (description.length > maxLength && window.matchMedia('(max-width: 768px)').matches) {
-                    const truncated = description.substring(0, maxLength);
-                    const fullText = description.substring(maxLength);
+                    const truncated = description.substring(0, maxLength) + "...";
+                    
+                    // Logic: data-original stores full text, data-truncated stores short text.
+                    // We start in a "truncated" state.
                     productDescriptionHTML = `
-                        <p class="product-description" data-original-text="${description}">
-                            <span class="truncated-text">${truncated}</span>
-                            <span class="more-text hidden">${fullText}</span>
-                            <a href="javascript:void(0);" class="read-more-btn">...Read More</a>
+                        <p class="product-description" 
+                           data-original-text="${description}" 
+                           data-truncated-text="${truncated}">
+                            <span class="content-text">${truncated}</span>
+                            <a href="javascript:void(0);" class="read-more-btn">Read More</a>
                         </p>
                     `;
                 } else {
                     productDescriptionHTML = `<p class="product-description">${description}</p>`;
                 }
+
                 const productCard = document.createElement('div');
                 productCard.className = 'productCard animate up';
                 productCard.innerHTML = `
-                    <div class="mobileTitle">
-                        <h2>${product.name}</h2>
-                    </div>
+                    <div class="mobileTitle"><h2>${product.name}</h2></div>
                     <div class="productLogo">
                         <div class="publishedLogo">
                             <img src="${product.image_url}" alt="${product.name}" loading="lazy">
@@ -75,20 +75,26 @@ const fetchProducts = async (page) => {
 
                 productContainer.appendChild(productCard);
 
-                // Add the event listener for the new card
-                if (description.length > maxLength && window.matchMedia('(max-width: 768px)').matches) {
-                    const readMoreBtn = productCard.querySelector('.read-more-btn');
+                // Event Listener for Truncation Toggle
+                const readMoreBtn = productCard.querySelector('.read-more-btn');
+                if (readMoreBtn) {
                     readMoreBtn.addEventListener('click', function() {
-                        const descriptionContainer = this.parentElement;
-                        const truncatedSpan = descriptionContainer.querySelector('.truncated-text');
-                        const moreSpan = descriptionContainer.querySelector('.more-text');
+                        const container = this.parentElement;
+                        const textSpan = container.querySelector('.content-text');
                         
-                        if (moreSpan.classList.contains('hidden')) {
-                            moreSpan.classList.remove('hidden');
+                        // Check if we are currently expanded or collapsed
+                        const isExpanded = container.classList.contains('expanded');
+
+                        if (!isExpanded) {
+                            // Expand: Use the full description
+                            textSpan.textContent = container.getAttribute('data-original-text');
                             this.textContent = 'Read Less';
+                            container.classList.add('expanded');
                         } else {
-                            moreSpan.classList.add('hidden');
-                            this.textContent = '...Read More';
+                            // Collapse: Use the truncated text
+                            textSpan.textContent = container.getAttribute('data-truncated-text');
+                            this.textContent = 'Read More';
+                            container.classList.remove('expanded');
                         }
                     });
                 }
@@ -96,15 +102,17 @@ const fetchProducts = async (page) => {
 
             categorySection.appendChild(productContainer);
             productList.appendChild(categorySection);
-            window.observeAnimateElements();
-            window.addSideBarLinks();
+            
+            // External UI initializers
+            if(window.observeAnimateElements) window.observeAnimateElements();
+            if(window.addSideBarLinks) window.addSideBarLinks();
         });
 
         currentPage++;
         hasMore = data.has_next;
 
     } catch (error) {
-        console.error('Error fetching products:');
+        console.error('Error fetching products:', error);
     } finally {
         isLoading = false;
         loadingIndicator.style.display = 'none';

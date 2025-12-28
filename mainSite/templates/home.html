@@ -16,6 +16,7 @@
     <meta property="og:description" content="YSR Shine Solutions - Your trusted partner for cleaning solutions." />
     <meta property="og:site_name" content="YSR Shine Solutions" />
     <meta name="robots" content="index, follow">
+    <link rel="preload" as="image" href="{{ url_for('static', filename='default_images/test4.webp') }}">
 {% endblock %}
 {% block scripts %}
 <script src="{{ url_for('static', filename='home.js') }}" defer></script>
@@ -65,7 +66,7 @@
                     <a aria-label="Chat on WhatsApp" href="https://wa.me/917073154946" text="I'm%20interested%20in%20your%20products"> <img alt="Chat on WhatsApp" src="../static/default_images/WhatsAppButtonGreenSmall.svg" style="display: block; padding: var(--thin-container-padding);margin-left: auto; margin-right: auto;"/></a>
                 </form>
             </div>
-            <img class="showcase large" src="{{ url_for('static', filename='default_images/test2.avif') }}" alt="Logo" id="large-logo" fetchpriority="high">
+            <img class="showcase large" src="{{ url_for('static', filename='default_images/test4.webp') }}" alt="Logo" id="large-logo" fetchpriority="high">
         </div>
         <div class="TextBoxBig animate up priority bigger">
             <h1 class="heading">YSR Shine Solutions, your trusted cleaning solution.</h1>
@@ -99,56 +100,75 @@
 document.addEventListener("DOMContentLoaded", function() {
     function applyReadMoreLogic() {
         const productDescriptions = document.querySelectorAll('.product-description');
-        const maxLength = 45;
+        const maxLength = 55; // Matches your updated logic
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-        productDescriptions.forEach(pTag => {
-            const originalDescription = pTag.getAttribute('data-original-text') || pTag.textContent.trim();
-            pTag.setAttribute('data-original-text', originalDescription); // Store original text
+        productDescriptions.forEach(container => {
+            // 1. Get or Store the absolute original text
+            let originalText = container.getAttribute('data-original-text');
+            if (!originalText) {
+                originalText = container.textContent.trim();
+                container.setAttribute('data-original-text', originalText);
+            }
 
-            if (originalDescription.length > maxLength && window.matchMedia('(max-width: 768px)').matches) {
-                const truncatedText = originalDescription.substring(0, maxLength);
-                const moreText = originalDescription.substring(maxLength);
+            // 2. Logic for mobile truncation
+            if (isMobile && originalText.length > maxLength) {
+                const truncatedText = originalText.substring(0, maxLength) + "...";
+                container.setAttribute('data-truncated-text', truncatedText);
 
-                // Check if the read-more structure already exists to avoid duplication
-                if (pTag.querySelector('.read-more-btn')) {
-                    // Reset to original text before re-applying the structure
-                    pTag.innerHTML = originalDescription;
-                }
-
-                pTag.innerHTML = `
-                    <span class="truncated-text">${truncatedText}</span>
-                    <span class="more-text hidden">${moreText}</span>
-                    <a href="javascript:void(0);" class="read-more-btn">...Read More</a>
-                `;
-
-                // Add click event listener to the newly created button
-                pTag.querySelector('.read-more-btn').addEventListener('click', function() {
-                    const truncatedSpan = pTag.querySelector('.truncated-text');
-                    const moreSpan = pTag.querySelector('.more-text');
+                // If the structure isn't already there, build it
+                if (!container.querySelector('.content-text')) {
+                    container.innerHTML = `
+                        <span class="content-text">${truncatedText}</span>
+                        <a href="javascript:void(0);" class="read-more-btn">Read More</a>
+                    `;
                     
-                    if (moreSpan.classList.contains('hidden')) {
-                        moreSpan.classList.remove('hidden');
-                        this.textContent = 'Read Less';
+                    // Add Click Event Listener
+                    container.querySelector('.read-more-btn').addEventListener('click', function() {
+                        const textSpan = container.querySelector('.content-text');
+                        const isExpanded = container.classList.contains('expanded');
+
+                        if (!isExpanded) {
+                            textSpan.textContent = container.getAttribute('data-original-text');
+                            this.textContent = 'Read Less';
+                            container.classList.add('expanded');
+                        } else {
+                            textSpan.textContent = container.getAttribute('data-truncated-text');
+                            this.textContent = 'Read More';
+                            container.classList.remove('expanded');
+                        }
+                    });
+                } else {
+                    // If structure exists but window resized, ensure text matches state
+                    const textSpan = container.querySelector('.content-text');
+                    const btn = container.querySelector('.read-more-btn');
+                    if (container.classList.contains('expanded')) {
+                        textSpan.textContent = originalText;
+                        btn.textContent = 'Read Less';
                     } else {
-                        moreSpan.classList.add('hidden');
-                        this.textContent = '...Read More';
+                        textSpan.textContent = truncatedText;
+                        btn.textContent = 'Read More';
                     }
-                });
+                }
             } else {
-                // If the screen is large or text is short, reset to original text
-                pTag.innerHTML = originalDescription;
+                // 3. Reset for desktop or short text
+                // Only reset if we actually have the toggle structure present
+                if (container.querySelector('.content-text')) {
+                    container.innerHTML = originalText;
+                    container.classList.remove('expanded');
+                }
             }
         });
     }
 
-    applyReadMoreLogic();
-    // Re-apply logic on window resize
+    // Debounced resize listener
     let resizeTimeout;
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(applyReadMoreLogic, 100); // Debounce
+        resizeTimeout = setTimeout(applyReadMoreLogic, 150);
     });
 });
 </script>
+
 <script src="{{ url_for('static', filename='paginate_scroll.js') }}" defer></script>
 {% endblock %}

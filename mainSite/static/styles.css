@@ -1,12 +1,22 @@
 :root {
+    /* Changed base to 16px so REM calculations match the comments below */
+    font-size: 16px; 
+    
+    /* 10px - Calculated as 10/16 */
+    --very-small-font-size: 0.625rem; 
+    
+    /* 14px – for fine print, tags, badges (Calculated as 14/16) */
     --small-font-size: 0.875rem;
-    /* 14px – for fine print, tags, badges */
+    
+    /* 16px – body text, buttons (Calculated as 16/16) */
     --normal-font-size: 1rem;
-    /* 16px – body text, buttons */
+    
+    /* 20px – subheadings, emphasized text (Calculated as 20/16) */
     --medium-font-size: 1.25rem;
-    /* 20px – subheadings, emphasized text */
-    --large-font-size: 2.5rem;
-    /* 32px – hero headings, big titles */
+    
+    /* 32px – hero headings, big titles (Calculated as 32/16) */
+    --large-font-size: 2rem;
+    
     --standard-container-padding: 2rem;
     --standard-padding: 0.75rem;
     --thin-container-padding: 0.5rem;
@@ -23,7 +33,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* outline: 1px solid red; */
 }
 
 html {
@@ -720,7 +729,8 @@ img.showcase {
     width: 100%;
     max-width: 512px;
     padding: var(--standard-container-padding);
-    background: rgba(255, 255, 255, 0.8);
+    background: rgb(255, 255, 255);
+    outline: 1px solid #888888;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 2;
@@ -730,6 +740,7 @@ img.showcase {
 .contactForm textarea {
     width: 100%;
     padding: var(--standard-padding);
+    margin-top: 1rem;
     margin-bottom: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -970,6 +981,10 @@ img.showcase.large.faded {
     padding-left: var(--thin-container-padding);
 }
 
+.productBody p {
+    font-size: var(--small-font-size);
+}
+
 .tags {
     padding: var(--thin-container-padding);
     display: flex;
@@ -980,7 +995,7 @@ img.showcase.large.faded {
 .tags .tag {
     background-color: #f1f1f1;
     color: #006eff;
-    font-size: var(--small-font-size);
+    font-size: var(--very-small-font-size);
     padding: var(--thin-container-padding);
     border-radius: 4px;
     border: none;
@@ -1261,6 +1276,11 @@ img.showcase.large.faded {
         width: clamp(300px, 75vw, 500px);
         margin: 0 auto;
         background-color: #ffffff;
+        border: 1px solid #888888;
+    }
+
+    .contactForm .heading {
+        font-size: var(--medium-font-size);
     }
 
     .imgBackgroundAuth {
@@ -1484,11 +1504,11 @@ img.showcase.large.faded {
     /* .contactForm{
         width: 80%;
     } */
-    :root {
+    /* :root {
         --small-font-size: 12px;
         --medium-font-size: 16px;
         --large-font-size: 20px;
-    }
+    } */
 
     .material-input {
         height: 40px;
@@ -1504,6 +1524,9 @@ img.showcase.large.faded {
     .shine::before {
         transform: scaleY(400%);
         translate: 0 -100%;
+    }
+    .tags{
+        justify-content: center;
     }
 }
 
@@ -1532,7 +1555,7 @@ img.showcase.large.faded {
     .contactForm.visible {
         background-color: #ffffff;
         width: clamp(300px, 80vw, 320px);
-        border: 1px solid #c5c5c5;
+        border: 1px solid #888888;
     }
 
     .productCard .productLogo img {
@@ -1553,10 +1576,10 @@ img.showcase.large.faded {
     }
 
     :root {
-        --normal-font-size: 12px;
+        /* --normal-font-size: 12px;
         --small-font-size: 10px;
         --medium-font-size: 14px;
-        --large-font-size: 18px;
+        --large-font-size: 18px; */
         --standard-container-padding: 0.75rem;
     }
 }
@@ -1576,10 +1599,10 @@ img.showcase.large.faded {
     }
 
     :root {
-        --normal-font-size: 10px;
+        /* --normal-font-size: 10px;
         --small-font-size: 8px;
         --medium-font-size: 12px;
-        --large-font-size: 16px;
+        --large-font-size: 16px; */
         --standard-container-padding: 0.5rem;
         --thin-container-padding: 0.15rem;
     }
