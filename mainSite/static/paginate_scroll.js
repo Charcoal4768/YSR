@@ -65,8 +65,8 @@ const fetchProducts = async (page) => {
                     </div>
                     <div class="productBody">
                         <h2>${product.name}</h2>
-                        <div class="spacer"></div>
                         ${productDescriptionHTML}
+                        <div class="spacer"></div>
                         <div class="tags">
                             ${product.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                         </div>

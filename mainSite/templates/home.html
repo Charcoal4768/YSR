@@ -27,7 +27,7 @@
     <div class="paneLayout">
         <div class="animate up secondary smaller">
             <div class="contactForm" id="Quote-form">
-                <div class="closeBtn" id="close-contact" style="position: absolute; right: 15px; top: 15px; color: red; z-index: 99;">&times;</div>
+                <div class="closeBtn" id="close-contact" style="position: absolute;right: 15px;top: 15px;color: red;z-index: 99;width: 20px;height: 20px;text-align: center;line-height: 1;">&times;</div>
                 <form>
                     <div class="heading animate up">Get a Quote today</div>
                     <div class="material-input">
@@ -100,7 +100,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     function applyReadMoreLogic() {
         const productDescriptions = document.querySelectorAll('.product-description');
-        const maxLength = 55; // Matches your updated logic
+        const maxLength = 30;
         const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
         productDescriptions.forEach(container => {

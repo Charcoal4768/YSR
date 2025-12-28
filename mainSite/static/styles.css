@@ -33,6 +33,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* outline: 1px solid blue; */
 }
 
 html {
@@ -172,17 +173,23 @@ select {
 .heading {
     font-size: var(--large-font-size);
     font-weight: bold;
+    hyphens: auto;
 }
 
 .subheading h2 {
     font-size: var(--medium-font-size);
     font-weight: normal;
+    hyphens: auto;
 }
 
 .subheading p {
     text-wrap-style: pretty;
     word-wrap: break-word;
     padding: var(--thin-container-padding);
+}
+
+h2{
+    hyphens: auto;
 }
 
 p {
@@ -962,7 +969,7 @@ img.showcase.large.faded {
     display: flex;
     border: none;
     border-radius: 4px;
-    padding: var(--standard-container-padding);
+    /* padding-left: var(--standard-container-padding); */
     margin-bottom: 1rem;
 }
 
@@ -978,7 +985,7 @@ img.showcase.large.faded {
     flex-direction: column;
     flex-grow: 1;
     order: 3;
-    padding-left: var(--thin-container-padding);
+    padding: var(--standard-container-padding);
 }
 
 .productBody p {
@@ -986,20 +993,20 @@ img.showcase.large.faded {
 }
 
 .tags {
-    padding: var(--thin-container-padding);
+    /* padding: var(--thin-container-padding); */
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
 }
 
 .tags .tag {
-    background-color: #f1f1f1;
+    background-color: #ffffff;
     color: #006eff;
     font-size: var(--very-small-font-size);
     padding: var(--thin-container-padding);
     border-radius: 4px;
     border: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .smallButton {
@@ -1395,10 +1402,10 @@ img.showcase.large.faded {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     }
 
-    .spacer {
+    /* .spacer {
         display: none;
         flex-grow: 0;
-    }
+    } */
 
     /* Style for the 'Read More' button */
     .read-more-btn {
@@ -1406,7 +1413,7 @@ img.showcase.large.faded {
         /* Match your link color */
         cursor: pointer;
         font-weight: bold;
-        font-size: var(--small-font-size);
+        font-size: var(--very-small-font-size);
         text-decoration: none;
         margin-left: 5px;
         white-space: nowrap;
@@ -1538,12 +1545,6 @@ img.showcase.large.faded {
     .productCard .productLogo img {
         height: 110px;
         width: 110px;
-    }
-
-    .productCard>.productBody {
-        /* padding: 0; */
-        align-items: center;
-        text-align: center;
     }
 }
 
