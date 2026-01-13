@@ -10,11 +10,13 @@
 
 [YSR Shine Solutions](https://ysrshinesolutions.com/) appears as the frist search result in google for "ysr shine" and "ysr shine solutions" with 0$ of advertisement budget.
 
+## Page Load Speed may be impacted by current cost-saving measures (0.0033 usd/mo hosting cost)
+
 YSR Shine Solutions is a product catalog and contact platform for a cleaning solutions business.  
 It combines a secure admin dashboard with a smooth, SEO-friendly customer experience, including infinite scrolling product discovery. Responsive down to 50px viewport widths and has perfect core web vitals.
 
-Built with **Flask**, **PostgreSQL**, and **Google Cloud Storage**, **Google Cloud VMs**, **PostgreSQL**, **SQLite** the project demonstrates how to balance security, scalability, and UX in a real-world business setting.
-Uses Google Cloud VM instances with Gunicorn workers for production deplyoment.
+Built with **Flask**, **PostgreSQL**, and **Google Cloud Storage**, **Google Cloud Run**, **PostgreSQL**, **SQLite** the project demonstrates how to balance security, scalability, and UX in a real-world business setting.
+Uses Google Cloud Run instances for production deplyoment.
 Custom SQLite based security tokens and OTPs, PostgreSQL based database management
 
 ---
@@ -57,6 +59,11 @@ Custom SQLite based security tokens and OTPs, PostgreSQL based database manageme
 
 ---
 
+## Google Core Web Vitals
+
+<img width="541" height="462" alt="image" src="https://github.com/user-attachments/assets/dfb18f67-4de5-46a9-97e3-d62b954ed7d4" />
+<img width="1919" height="1041" alt="image" src="https://github.com/user-attachments/assets/80225817-0b8f-490a-8fab-1f4a122f4f4a" />
+
 ## 📸 Screenshots
 
 ### Homepage – Hero & Contact
@@ -65,13 +72,23 @@ Custom SQLite based security tokens and OTPs, PostgreSQL based database manageme
 
 
 ### Product Catalog with Infinite Scroll
-<img width="1901" height="995" alt="image" src="https://github.com/user-attachments/assets/c78fa8a1-7fb6-4196-b1e7-53cc4220889f" />
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/218a67c9-46eb-4081-acfa-2f96dd74d675" />
-
+<img width="1920" height="1080" alt="Screenshot 2026-01-13 170228" src="https://github.com/user-attachments/assets/1c26719f-da74-49a5-9085-2a96d7d9f84e" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4db235c8-da56-4d22-b81d-3d2ca1c2a259" />
 
 ### Admin Dashboard – Add Product
-<img width="1905" height="995" alt="image" src="https://github.com/user-attachments/assets/599cd642-7f7f-4fb3-b5ca-46dc7f103f2c" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/6945d0d4-8fce-445c-b76d-67df681ccf32" />
 <img width="1904" height="990" alt="image" src="https://github.com/user-attachments/assets/b3f31e16-7696-4118-a746-7051b8d01687" />
+
+## Minimalstic but Contentful
+<img width="1919" height="1079" alt="Screenshot 2026-01-13 170258" src="https://github.com/user-attachments/assets/86ed3a0b-35ab-489d-8bde-bcbe99bc93b2" />
+<img width="1907" height="1079" alt="Screenshot 2026-01-13 170311" src="https://github.com/user-attachments/assets/566e7a4c-c193-46b1-b5fa-a94a6e15051f" />
+
+
+### Responsive Design - Up to 80px screen width
+<img width="410" height="897" alt="Screenshot 2026-01-13 170445" src="https://github.com/user-attachments/assets/a145dabd-cc81-4093-a062-133fbe3dbfd8" />
+<img width="1620" height="840" alt="Screenshot 2026-01-13 170354" src="https://github.com/user-attachments/assets/a763c76c-f9fa-466e-9c02-43df13fd4d01" />
+<img width="136" height="895" alt="Screenshot 2026-01-13 170543" src="https://github.com/user-attachments/assets/0f0148d5-788f-4b27-9cb1-6dde6d2ac944" />
+<img width="417" height="899" alt="image" src="https://github.com/user-attachments/assets/85ec7fd2-c52b-4520-bf9d-a8ac46fb2be2" />
 
 
 ---
