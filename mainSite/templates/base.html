@@ -14,7 +14,8 @@
     {% block meta %}
     {% endblock %}
     <meta name="author" content="YSR Shine Solutions">
-    <meta name="theme-color" content="#ff164d">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
     <link rel="canonical" href="https://www.ysrshinesolutions.com/">
     <link rel="preload" as="image" href="../static/default_images/WhatsAppButtonGreenSmall.svg">
     <meta name="twitter:card" content="summary_large_image">
@@ -22,7 +23,7 @@
     <meta name="twitter:description" content="Your trusted partner for cleaning solutions.">
     <meta name="twitter:image" content="https://www.ysrshinesolutions.com/static/default_images/wetwUntitled.png">
     <meta name="twitter:site" content="@YourTwitterHandle">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="preload" href="{{ url_for('static', filename='fonts.css') }}" as="style" onload="this.rel='stylesheet'">
     <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
@@ -47,7 +48,7 @@
         <div class="links">
             <ul>
                 <li class="disposable"><a href="{{ url_for('views.home') }}">Home</a></li>
-                <li><a href="{{ url_for('views.home') }}#Quote-form" class="rainbow-text rainbow-enter"
+                <li class="otherDisposable"><a href="{{ url_for('views.home') }}#Quote-form" class="rainbow-text rainbow-enter"
                         id="Quote-button">Get Quote</a></li>
                 <li class="subnav">
                     <div class="burger">

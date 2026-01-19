@@ -209,7 +209,7 @@ nav {
     transform: translateX(-50%);
     /* Move it back by half of its width */
     border-bottom: 1px solid #3333331f;
-    transition: 0.5s ease;
+    transition: 0.3s ease;
 }
 
 nav .links {
@@ -257,7 +257,7 @@ nav ul li a::before {
     display: block;
     height: 2px;
     background: #006eff;
-    transition: width 0.5s ease;
+    transition: width 0.3s ease;
 }
 
 nav ul li a:hover::before {
@@ -314,7 +314,7 @@ nav ul li a:hover::before {
     max-height: 0;
     overflow: hidden;
     opacity: 0;
-    transition: all 0.5s ease;
+    transition: all 0.3s ease;
 }
 
 .footer-content.visible {
@@ -396,7 +396,7 @@ img.logo {
     padding: 5px 8px;
     border-radius: 6px;
     font-size: 12px;
-    transition: opacity 0.5s;
+    transition: opacity 0.3s;
 }
 
 .footer-header:hover .tooltiptext {
@@ -431,7 +431,7 @@ img.logo {
     height: 100%;
     background-color: #006eff;
     border-radius: 4px;
-    transition: 0.5s ease-in-out;
+    transition: 0.3s ease-in-out;
     z-index: -1;
 }
 
@@ -482,7 +482,7 @@ img.logo {
     height: 3px;
     background-color: #006eff;
     border-radius: 2px;
-    transition: all 0.5s ease;
+    transition: all 0.3s ease;
 }
 
 .sidebar hr {
@@ -659,7 +659,7 @@ img.logo.small {
 .shine {
     position: relative;
     background-color: #c5c5c5;
-    /* transition: background-color 0.5s ease; */
+    /* transition: background-color 0.3s ease; */
     overflow: hidden;
     animation: clean 1.5s 1 linear forwards;
 }
@@ -1120,11 +1120,11 @@ img.showcase.large.faded {
 }
 
 .animate.up.visible {
-    animation: fadeSlideUp 0.5s ease forwards;
+    animation: fadeSlideUp 0.3s ease forwards;
 }
 
 .animate.down.visible {
-    animation: fadeSlideUp 0.5s ease forwards;
+    animation: fadeSlideUp 0.3s ease forwards;
 }
 
 .animate.right {
@@ -1132,7 +1132,7 @@ img.showcase.large.faded {
 }
 
 .animate.right.visible {
-    animation: fadeSlideRight 0.5s ease forwards;
+    animation: fadeSlideRight 0.3s ease forwards;
 }
 
 .animate.left {
@@ -1140,15 +1140,15 @@ img.showcase.large.faded {
 }
 
 .animate.left.visible {
-    animation: fadeSlideLeft 0.5s ease forwards;
+    animation: fadeSlideLeft 0.3s ease forwards;
 }
 
 .animate.fade.visible {
-    animation: fade 0.5s ease forwards;
+    animation: fade 0.3s ease forwards;
 }
 
 .animate.grow.visible {
-    animation: growFullWidth 0.5s ease-out forwards;
+    animation: growFullWidth 0.3s ease-out forwards;
 }
 
 /*Animations*/
@@ -1621,6 +1621,56 @@ img.showcase.large.faded {
 
     .contactForm.visible {
         width: clamp(200px, 90vw, 280px);
+    }
+    .otherDisposable{
+        display: none;
+    }
+    :root{
+        font-size: 12px;
+        --large-font-size: 1rem;
+        --medium-font-size: 0.75rem;
+        --small-font-size: 0.5rem;
+        --very-small-font-size: 0.2
+    }
+    h2.subheading{
+        font-size: var(--medium-font-size);
+    }
+    .whatsapp-floating{
+        right: 0;
+    }
+    .whatsapp-floating img{
+        width: 80%;
+        height: 100%;
+    }
+}
+
+@media (max-width: 110px){
+    .logo{
+        position: fixed
+    }
+}
+
+@media (max-width: 90px){
+    .logo{
+        display: none;
+    }
+    .nav{
+        background: white;
+        width: 100%;
+    }
+    .nav ul{
+        display: flex;
+        width: 100%;
+        position: relative;
+        justify-content: center;
+        align-items: center;
+        left: 0;
+        top: 0;
+    }
+
+    .nav ul li{
+        flex-grow: 1;
+        flex-shrink: 0;
     }
 }
 
