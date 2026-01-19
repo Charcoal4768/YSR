@@ -1,6 +1,6 @@
 # YSR Shine Solutions
-[![License: BUSL-1.1](https://img.shields.io/badge/License-BUSL--1.1-orange.svg)](./LISENCE)
-**Full-stack Flask platform for managing and showcasing cleaning products.**
+
+[![License: BUSL-1.1](https://img.shields.io/badge/License-BUSL--1.1-orange.svg)](./LISENCE.md)
 
 ⭐ _If you like this project, please leave a star; it helps a lot!_
 
