@@ -96,3 +96,4 @@ Custom SQLite based security tokens and OTPs, PostgreSQL based database manageme
 ## IMPORTANT DISCLAIMER
 **YOU ARE NOT PERMITTED TO CLONE THIS REPO OR USE THE CODE FROM IT TO DEPLOY ANY COMMERCIAL WEB APPLICATIONS OR OTHER SOFTWARE.**
 For more information, see: [The License](https://github.com/Charcoal4768/YSR/blob/main/LISENCE.md)
+.
